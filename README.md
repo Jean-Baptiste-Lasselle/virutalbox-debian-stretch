@@ -101,7 +101,17 @@ sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX
 # >  /sbin/vboxconfig
 # > as root.
 # 
+# De plus, lorsque l'on exécute : 
+#  [sudo /sbin/vboxconfig]
+# On obtient un certain nombre de messages d'erreurs, ainsi que la suggestion pour les résoudre : des dépendances de l'exécutable [/sbin/vboxconfig] manquent à l'appel. Il faut donc installer ces exécutables avant de ré-essayer d'exécuter [sbin/vboxconfig] : 
+
+sudo apt-get install -y linux-headers-amd64 linux-headers-4.9.0-7-amd64 gcc make perl
+
+# Maintenant, on peut ré-essayer d'exécuter [/sbin/vboxconfig]
 sudo /sbin/vboxconfig
+
+echo "Et bingo, nous sommes bons! "
+echo "Notons : l'idéal sera, pour une recette de \"production\", d'installer ces dépendances avant même l'exécuation [dpkg -i \$NOM_FICHIER_PACKAGE_LINUX_DEBIAN]"
 
 
 
