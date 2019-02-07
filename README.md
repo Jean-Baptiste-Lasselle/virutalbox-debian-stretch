@@ -229,12 +229,40 @@ Voir, pour la gestion des repositories `apt-get` , `apk` et `yum` :
 
 Lorsque l'on a analysé la procédure d'installaiton de virtualbox, on a pu remarquer la mention de 4 exécutables utilisables en tant que services de l'OS DEbian Stretch : 
 
-* `vboxdrv` : 
-* `vboxballoonctrl-service`   : j'ai trouvé https://www.virtualbox.org/manual/ch09.html#vboxwatchdog  il semblerait que le remplaçant en cours du `ballon controller` soit devenu un certain `watchdog`
-* `vboxautostart-service` : 
-* `vboxweb-service` :   est lié au composant `vboxwebsrv`, comme le montre le script [`vboxweb-service.sh`](https://www.virtualbox.org/svn/vbox/trunk/src/VBox/Installer/linux/vboxweb-service.sh) qui permet de contrôle VirtualBox à distance, via une (pseudo) REST API.    cf. https://www.virtualbox.org/manual/ch09.html#vboxwebsrv-daemon 
+* **`vboxdrv`** : il s'agit du `Linux Kernel Module` de `VirtualBox` , c'est à dire son composant principal (ce qui lui permet de faire de la virtualisation). Extrait de `sudo cat /usr/lib/virtualbox/vboxdrv.sh|more` : 
 
+```bash
+# Oracle VM VirtualBox
+# Linux kernel module init script
 
+#
+# Copyright (C) 2006-2019 Oracle Corporation
+#
+# This file is part of VirtualBox Open Source Edition (OSE), as
+# available from http://www.virtualbox.org. This file is free software;
+# you can redistribute it and/or modify it under the terms of the GNU
+# General Public License (GPL) as published by the Free Software
+# Foundation, in version 2 as it comes in the "COPYING" file of the
+# VirtualBox OSE distribution. VirtualBox OSE is distributed in the
+# hope that it will be useful, but WITHOUT ANY WARRANTY of any kind.
+#
 
-* Notons, à propos de ``
+# chkconfig: 345 20 80
+# description: VirtualBox Linux kernel module
+#
+### BEGIN INIT INFO
+# Provides:       vboxdrv
+# Required-Start: $syslog
+# Required-Stop:
+# Default-Start:  2 3 4 5
+# Default-Stop:   0 1 6
+# Short-Description: VirtualBox Linux kernel module
+### END INIT INFO
+
+```
+
+* **`vboxballoonctrl-service`**   : j'ai trouvé https://www.virtualbox.org/manual/ch09.html#vboxwatchdog  il semblerait que le remplaçant en cours du `ballon controller` soit devenu un certain `watchdog`
+* **`vboxautostart-service`** : TODO
+* **`vboxweb-service`** :   est lié au composant **`vboxwebsrv`**, comme le montre le script [`vboxweb-service.sh`](https://www.virtualbox.org/svn/vbox/trunk/src/VBox/Installer/linux/vboxweb-service.sh) qui permet de contrôle `VirtualBox` à distance, via une (pseudo) REST API.    cf. https://www.virtualbox.org/manual/ch09.html#vboxwebsrv-daemon 
+
 
