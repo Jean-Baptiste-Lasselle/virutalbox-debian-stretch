@@ -176,4 +176,8 @@ Je  remarque deux choses :
   * une installation que je dois concenvoir entièrement au lieu de laisser faire le package manager, 
   * j'obtiens manifestement avec cette méthode d'installation, une version plus récente de virutalbox.
 
-En conclusion, je pense que je suis là dans le cas typique pour lequel il serait jsutifié que je me monte moi-même mes repo `apt-get` , `apk` et `yum` pour distribuer les paquets virutalbox les plsu frais
+En conclusion, je pense que je suis là dans le cas typique pour lequel il serait jsutifié que je me monte moi-même mes repo `apt-get` , `apk` et `yum` pour distribuer les paquets virutalbox les plus frais : 
+* il s'agit d'avoir dans un repository géré en interne, des versions plsu récentes de virtualbox, quelle celles distribuées via le repository Oracle correspondant
+* Il s'agit de régler un problème posé par l'installation avec `dpkg -i $NOM_FICHIER_LINUX_DEBIAN`  : en isnallant virtualbox de cette manière, la commandes `sudo apt-get update -y` et  `sudo apt-get upgrade -y`, n'impliqueront aucune mise à jour, ni aucune montée de verion de virtualbox, sur le `poste-devops-typique`.
+
+Voir: [`Redhat Satellite / Spacewalk`](https://spacewalkproject.github.io/) + [`Pulp repository manager`](https://pulpproject.org/)
