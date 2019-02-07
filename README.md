@@ -92,15 +92,19 @@ cat MD5SUMS|grep *~Debian~stretch_amd64.deb >> masomme.md5sum
 md5sum -c masomme.md5sum || echo "Le fichier téléchargé [$NOM_FICHIER_DEB_INSTALLATION_VBOX] a été corrompu, il ne correspond pas à la somme de contrôle fournie par Oracle : [$(cat masomme.md5sum)] "
 
 
-
+# Exécution de l'installation du package debian : l'intégrité du package a été doublement vérifiée. 
 sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX
-
-
 
 # Nous veneons d'installer un package debian (virutalbox), manuellement. Il peut lui manquer des dépendances.
 # apt-get a la capacité de résoudre ces dépendances automatiquement, avec la commande : 
 sudo apt-get -f install
 
-
-
 ```
+Je  remarque deux choses : 
+
+* Dans le premier mode d'installation, on aune installation "propre", par le package manager, avec les garanties fournie spar le repository. Totuefois, je n'ai pas trouvé, pour ce mode d'installation, de procédure, automatique ou non, par laquelle il m'est possbile de vérifier quelles sont les clés disponibles pour le repository de backports debian / virtualbox  
+* Dans le second moide d'isntallation : 
+  * j'ai une procédure de sécurité qui constitue un cycle complet  : il faut aller vérifier régulièrement de nouveaux contenus ont été publiés par Oracle sur virtualbox.org
+  * une installation que je dois concenvoir entièrement au lieu de laisser faire le package manager, 
+  * j'obtiens manifestement avec cette méthode d'installation, une version plus récente de virutalbox.
+
