@@ -318,7 +318,12 @@ Lorsque l'on a analysé la procédure d'installaiton de virtualbox, on a pu rema
 ```
 
 * **`vboxballoonctrl-service`**   : j'ai trouvé https://www.virtualbox.org/manual/ch09.html#vboxwatchdog  il semblerait que le remplaçant en cours du `ballon controller` soit devenu un certain `watchdog`
-* **`vboxautostart-service`** : Ce service permet de démarrer les VM choisies, au démarrage de l'OS de l'hôte de virtualisation (la machine sur laquelle est intallé virutalbox), et réciproquement, d'arrêter (correctement) l'exécution de VMs, avec l'arrêt (correct) de l'OS de l'hôte de virtualisation. cf. https://pgaskin.net/linux-tips/configuring-virtualbox-autostart/
+* **`vboxautostart-service`** : Ce service permet de démarrer les VM choisies, au démarrage de l'OS de l'hôte de virtualisation (la machine sur laquelle est intallé virutalbox), et réciproquement, d'arrêter (correctement) l'exécution de VMs, avec l'arrêt (correct) de l'OS de l'hôte de virtualisation. cf. https://pgaskin.net/linux-tips/configuring-virtualbox-autostart/  .
 * **`vboxweb-service`** :   est lié au composant **`vboxwebsrv`**, comme le montre le script [`vboxweb-service.sh`](https://www.virtualbox.org/svn/vbox/trunk/src/VBox/Installer/linux/vboxweb-service.sh) qui permet de contrôle `VirtualBox` à distance, via une (pseudo) REST API.    cf. https://www.virtualbox.org/manual/ch09.html#vboxwebsrv-daemon 
 
+# Contrôle à distance de VirtualBox par SOAP API
 
+Je cite la documentation officielle de `VirtualBox`, version `6.0.4`, dite [`VirtualBox Programming Guide And References`[(http://download.virtualbox.org/virtualbox/SDKRef.pdf)  : 
+
+
+> VirtualBox comes with a web service that maps nearly the entire Main API. The web service ships ina stand-alone executable (`vboxwebsrv`) that, when running, acts as an HTTP server, accepts `SOAP` connections and processes them.
