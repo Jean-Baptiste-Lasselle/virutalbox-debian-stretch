@@ -29,7 +29,11 @@ Add backports to your sources.list
     Run apt-get update
 ```
 
-# Recette bash
+# Installation par le repository de `back-ports` debian maintenu par`Oracle`
+
+Cette installation est documentée sur le site poffciel Debian, à la page https://wiki.debian.org/VirtualBox .
+
+## Recette bash
 
 ```
 
@@ -62,8 +66,22 @@ sudo apt-cache search virtualbox*
 sudo apt-get install -y virtualbox
 
 ```
-Dans la recette ci-dessus, la sécuritsation du repository Oracle repose sur une clé GPG téléchargée, à savoir `oracle_vbox_2016.asc` ( https://www.virtualbox.org/download/oracle_vbox_2016.asc )
-Je veux ici noter de plus, que sur le site officiel de VirtualBox, on trouve les liens de télépchargement de tous les binaires distribués par Oracles, ainsi que les checksum correspondant. Si bien qu'il serait aussi possible d'installer virtualbox de la manière suivante : 
+
+## Remarques :  Sécurité
+
+Dans cette recette, la sécuritsation du repository Oracle repose sur une clé GPG téléchargée, à savoir `oracle_vbox_2016.asc` ( https://www.virtualbox.org/download/oracle_vbox_2016.asc )
+
+Ceci me pose le problème de sécurité suivant : 
+* Je n'ai aucun moyen de vérifier quand et comment cette clé, sécurisant ce repository de backports debian, est mise à jour : 
+  * Il me faudrait au moins un document officiel Oracle, dans lequel Oracle indique que https://www.virtualbox.org/download/oracle_vbox_2016.asc est bel et bien la clé de sécurité correspondant au repo de backport debian http://download.virtualbox.org/virtualbox/debian, offcialisant ce canal de distribution.
+  * Il me faudrait une visibilité quant à la politique de sécurité appliquée sur ce repository http://download.virtualbox.org/virtualbox/debian
+* http://download.virtualbox.org/virtualbox/debian   n'est pas sécurisé par https, et j'aimerais quelque chose de plus sécurisé.
+
+# Installation par téléchargement de binaires distribués par Oracle
+
+Je veux ici noter de plus, que sur le site officiel de VirtualBox, on trouve les liens de télépchargement de tous les binaires distribués par Oracles, ainsi que les checksum correspondant. Si bien qu'il est aussi possible d'installer virtualbox de la manière suivante : 
+
+## Recette bash
 
 ```bash
 #!/bin/bash
@@ -121,7 +139,7 @@ sudo apt-get -f install
 
 ```
 
-## Exécution de `sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX`
+## Remarques : Exécution de `sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX`
 
 Lorsque l'on exécute la commande `sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX`, sans avoir exécuté avant la commande : 
 
@@ -185,14 +203,20 @@ sudo apt-get install -y linux-headers-amd64 linux-headers-4.9.0-7-amd64 gcc make
 
 Je  remarque deux choses : 
 
-* Dans le premier mode d'installation, on aune installation "propre", par le package manager, avec les garanties fournie spar le repository. Totuefois, je n'ai pas trouvé, pour ce mode d'installation, de procédure, automatique ou non, par laquelle il m'est possbile de vérifier quelles sont les clés disponibles pour le repository de backports debian / virtualbox  
-* Dans le second moide d'isntallation : 
+* Dans le premier mode d'installation, on aune installation "propre", par le package manager, avec les garanties fournies par le repository, quant à la résolutiona utolatique des dépendances, et l'intégration à l'instance d'OS.
+Toutefois, je n'ai pas trouvé, pour ce mode d'installation, quelques problématiques de sécurité se posent, et l'application d'une politique de gestion de la sécurité est difficile avec cette solution de rpovision de `VirtualBox`.
+
+* Dans le second mode d'isntallation : 
   * j'ai une procédure de sécurité qui constitue un cycle complet  : il faut aller vérifier régulièrement de nouveaux contenus ont été publiés par Oracle sur virtualbox.org
   * une installation que je dois concenvoir entièrement au lieu de laisser faire le package manager, 
   * j'obtiens manifestement avec cette méthode d'installation, une version plus récente de virutalbox.
 
-En conclusion, je pense que je suis là dans le cas typique pour lequel il serait jsutifié que je me monte moi-même mes repo `apt-get` , `apk` et `yum` pour distribuer les paquets virutalbox les plus frais : 
-* il s'agit d'avoir dans un repository géré en interne, des versions plsu récentes de virtualbox, quelle celles distribuées via le repository Oracle correspondant
+En conclusion, je pense que je suis là dans le cas typique pour lequel il serait jsutifié que je me monte moi-même mes repositories `apt-get` , `apk` et `yum` pour distribuer les paquets virutalbox les plus frais : 
+
+* Il s'agit d'avoir dans un repository géré en interne, des versions plsu récentes de virtualbox, quelle celles distribuées via le repository Oracle correspondant
 * Il s'agit de régler un problème posé par l'installation avec `dpkg -i $NOM_FICHIER_LINUX_DEBIAN`  : en isnallant virtualbox de cette manière, la commandes `sudo apt-get update -y` et  `sudo apt-get upgrade -y`, n'impliqueront aucune mise à jour, ni aucune montée de verion de virtualbox, sur le `poste-devops-typique`.
 
-Voir: [`Redhat Satellite / Spacewalk`](https://spacewalkproject.github.io/) + [`Pulp repository manager`](https://pulpproject.org/)
+Voir, pour la gestion des repositories `apt-get` , `apk` et `yum` : 
+
+* [`Redhat Satellite / Spacewalk`](https://spacewalkproject.github.io/) => pour `yum` / `CentOS`
+* [`Pulp repository manager`](https://pulpproject.org/) => pour `apt-get` , `apk` / `Ubuntu`, `Debian`, `Alpine`
