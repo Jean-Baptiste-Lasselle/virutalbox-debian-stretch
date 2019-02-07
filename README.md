@@ -83,11 +83,29 @@ Ceci me pose le problème de sécurité suivant :
 
 ## furher : sums of keys
 
-On remmarque : 
+On remarque : 
 
-* D'un côté, la docuementation officlelle debian nous idique de télécharger la clé de repository Oracle, [clecle](ccc), à l'URI http://download.virtualbox.org/virtualbox/debian
-* D'un autre côté, un fichier `oracle_vbox_2016.asc` est bien présent sur l'emplacement serveur http://download.virtualbox.org/virtualbox/debian . Donc, pourquoi télécharger la clé de sécurisation du repostory http://download.virtualbox.org/virtualbox/debian à l'URI https://www.virtualbox.org/download/oracle_vbox_2016.asc , au lieu de http://download.virtualbox.org/virtualbox/debian/oracle_vbox_2016.asc ? 
-* Mieux, à l'emplacement serveur http://download.virtualbox.org/virtualbox/debian, on trouve aussi deux fichiers de somme de contrôle, `ccc` et`ccc`, et ces fichiers de comme contiennt une somme de contrôle pour le fichier `oracle_vbox_2016.asc` :  il faudrait donc vérifier la somme de contrôle de la clé téléchargée, avant de l'ajouter comme clé référencée avec une commande `apt-key add` : 
+* D'un côté, la docuementation officlelle debian nous idique de télécharger la clé de repository Oracle, [oracle_vbox_2016.asc](http://download.virtualbox.org/virtualbox/debian), à l'URI http://download.virtualbox.org/virtualbox/debian
+* D'un autre côté, un fichier `oracle_vbox_2016.asc` est bien présent sur l'emplacement serveur http://download.virtualbox.org/virtualbox/debian . 
+* Donc, pourquoi télécharger la clé de sécurisation du repostory http://download.virtualbox.org/virtualbox/debian à l'URI https://www.virtualbox.org/download/oracle_vbox_2016.asc , au lieu de http://download.virtualbox.org/virtualbox/debian/oracle_vbox_2016.asc ? 
+* Mieux, à l'emplacement serveur http://download.virtualbox.org/virtualbox/debian, on trouve aussi deux fichiers de somme de contrôle, `MD5SUMS` et`SHA256SUMS`, et ces fichiers de comme contiennent une somme de contrôle pour le fichier `oracle_vbox_2016.asc` :  
+
+```bash
+wget http://download.virtualbox.org/virtualbox/debian/MD5SUMS
+wget http://download.virtualbox.org/virtualbox/debian/SHA256SUMS
+cat MD5SUMS|grep oracle_vbox_2016.asc
+cat SHA256SUMS|grep oracle_vbox_2016.asc
+```
+_donne :_
+```bash
+jibl@poste-devops-jbl-16gbram:~/IAAS/virtualbox/garage$ cat MD5SUMS|grep oracle_vbox_2016.asc
+35eac5b13a7c055578d33115b1864740 *oracle_vbox_2016.asc
+jibl@poste-devops-jbl-16gbram:~/IAAS/virtualbox/garage$ cat SHA256SUMS|grep oracle_vbox_2016.asc
+49e6801d45f6536232c11be6cdb43fa8e0198538d29d1075a7e10165e1fbafe2 *oracle_vbox_2016.asc
+jibl@poste-devops-jbl-16gbram:~/IAAS/virtualbox/garage$ 
+```
+
+* Il faudrait donc vérifier la somme de contrôle de la clé téléchargée, avant de l'ajouter comme clé référencée avec une commande `apt-key add` : 
 
 ```bash
 export NOM_CLE_SECURISATION_REPO_ORACLE_VBOX_DEBIAN_9=oracle_vbox_2016.asc
