@@ -128,6 +128,12 @@ sha256sum -c masomme.md5sum || echo "Le fichier téléchargé [$NOM_CLE_SECURISA
 sudo apt-key add oracle_vbox_2016.asc
 
 ```
+Enfin, toujours à l'URI de la racine du repo de backport debian maintenu par Oracle, j'ai trouvé deux autres clés `PGP`, qu'il faut manifestement aussi vérifier et pour lesquelles il faut configurer le package manager avec `apt-key add $NOM_FICHIER_CLE_PGP.asc` : 
+
+* `oracle_vbox.asc` : http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc
+* `sun_vbox.asc` : http://download.virtualbox.org/virtualbox/debian/sun_vbox.asc
+
+Pourquoi 3 signatures `PGP` à la racine du même repo ? 
 
 
 # Installation par téléchargement de binaires distribués par Oracle
