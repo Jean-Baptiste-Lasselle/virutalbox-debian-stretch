@@ -326,4 +326,4 @@ Lorsque l'on a analysé la procédure d'installaiton de virtualbox, on a pu rema
 Je cite la documentation officielle de `VirtualBox`, version `6.0.4`, dite [`VirtualBox Programming Guide And References`[(http://download.virtualbox.org/virtualbox/SDKRef.pdf)  : 
 
 
-> VirtualBox comes with a web service that maps nearly the entire Main API. The web service ships ina stand-alone executable (`vboxwebsrv`) that, when running, acts as an HTTP server, accepts `SOAP` connections and processes them.
+> VirtualBox comes with a web service that maps nearly the entire Main API. The web service ships in a standalone executable (`vboxwebsrv`) that, when running, acts as an HTTP server, accepts `SOAP` connections and processes them.
