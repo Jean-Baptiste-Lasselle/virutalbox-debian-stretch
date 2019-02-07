@@ -262,7 +262,7 @@ Lorsque l'on a analysé la procédure d'installaiton de virtualbox, on a pu rema
 ```
 
 * **`vboxballoonctrl-service`**   : j'ai trouvé https://www.virtualbox.org/manual/ch09.html#vboxwatchdog  il semblerait que le remplaçant en cours du `ballon controller` soit devenu un certain `watchdog`
-* **`vboxautostart-service`** : TODO
+* **`vboxautostart-service`** : Ce service permet de démarrer les VM choisies, au démarrage de l'OS de l'hôte de virtualisation (la machine surlaquelle est intallé virutalbox), et réciproquement, d'arrêter (correctement) l'exécution de VMs, avec l'arrêt (correct) de l'OS de l'hôte de virtualisation. 
 * **`vboxweb-service`** :   est lié au composant **`vboxwebsrv`**, comme le montre le script [`vboxweb-service.sh`](https://www.virtualbox.org/svn/vbox/trunk/src/VBox/Installer/linux/vboxweb-service.sh) qui permet de contrôle `VirtualBox` à distance, via une (pseudo) REST API.    cf. https://www.virtualbox.org/manual/ch09.html#vboxwebsrv-daemon 
 
 
