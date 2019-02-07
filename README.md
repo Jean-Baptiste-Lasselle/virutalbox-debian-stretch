@@ -108,3 +108,4 @@ Je  remarque deux choses :
   * une installation que je dois concenvoir entièrement au lieu de laisser faire le package manager, 
   * j'obtiens manifestement avec cette méthode d'installation, une version plus récente de virutalbox.
 
+En conclusion, je pense que je suis là dans le cas typique pour lequel il serait jsutifié que je me monte moi-même mes repo `apt-get` , `apk` et `yum` pour distribuer les paquets virutalbox les plsu frais
