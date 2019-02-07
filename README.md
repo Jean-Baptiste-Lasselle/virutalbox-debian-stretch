@@ -327,3 +327,16 @@ Je cite la documentation officielle de `VirtualBox`, version `6.0.4`, dite [`Vir
 
 
 > VirtualBox comes with a web service that maps nearly the entire Main API. The web service ships in a standalone executable (`vboxwebsrv`) that, when running, acts as an HTTP server, accepts `SOAP` connections and processes them.
+
+
+Il est possible de customiser l'autyhentification qui est faite auprès du serveur hébergeant le endpoint SAOP, à savoir `vboxwebsrv`, grâce à une indication donnée dans le `Programming guide` : 
+
+> The IWebsessionManager::logon() API takes a user name and a password as arguments, which the web service then passes to a customizable authentication plugin that performs the actual authentication.
+> For testing purposes, it is recommended that you first disable authentication with this com-
+mand : 
+
+```bash
+VBoxManage setproperty websrvauthlibrary null
+```
+
+Donc, l'implémentation que je dois gfournir doit certainement être la fameuse `websrvauthlibrary`
