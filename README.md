@@ -47,6 +47,10 @@ sudo chmod o+r $FICHIER_CONF
 sudo chmod o+w $FICHIER_CONF
 sudo chown root:root $FICHIER_CONF
 
+# Enfin, il faut ajouter la clé GPGP du repository Oracle de distribution de virtualbox
+wget https://www.virtualbox.org/download/oracle_vbox_2016.asc
+sudo apt-key add oracle_vbox_2016.asc
+
 # puis installation virtualbox
 sudo apt-get install -y virtualbox
 
