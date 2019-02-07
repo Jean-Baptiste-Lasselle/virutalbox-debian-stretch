@@ -80,7 +80,7 @@ mkdir ./provision_virtual_box/
 cd ./provision_virtual_box/
 wget $URI_TELECHARGEMENT_PACKAGE_VBOX_DEBIAN
 wget $CHECKSUM_MD5
-wget $CHECKSUM_MD5
+wget $CHECKSUM_SHA2
 
 echo "Vérfication des sommes de contrôle des fichiers téléchargés"
 rm -f masomme.sha512sum
@@ -95,11 +95,69 @@ md5sum -c masomme.md5sum || echo "Le fichier téléchargé [$NOM_FICHIER_DEB_INS
 # Exécution de l'installation du package debian : l'intégrité du package a été doublement vérifiée. 
 sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX
 
+# L'exécution de ce processus d'installation log une indication : 
+# 
+# > There were problems setting up VirtualBox.  To re-start the set-up process, run
+# >  /sbin/vboxconfig
+# > as root.
+# 
+sudo /sbin/vboxconfig
+
+
+
 # Nous veneons d'installer un package debian (virutalbox), manuellement. Il peut lui manquer des dépendances.
 # apt-get a la capacité de résoudre ces dépendances automatiquement, avec la commande : 
 sudo apt-get -f install
 
 ```
+
+Sont à noter plusieurs éléments quis emblent importants dans les logs du processud d'installation du package virtualbox : 
+
+* D'abord, les logs mentionnent un problème, et qu'il faut le résoudre en exécutant "avec `sudo`" la commane `ccc` : 
+```bash
+There were problems setting up VirtualBox.  To re-start the set-up process, run
+ /sbin/vboxconfig
+as root.
+```
+* Ensuite, on pourra noter que la procédue d'installation de virtualbox créée un grouep d'utilisateurs linux sur la machine debian :  le groupe `vboxusers`, qui est un _groupe système_.
+```bash
+addgroup: The group `vboxusers' already exists as a system group. Exiting.
+```
+* De plus, on notera la définition de service `SystemD`  :  
+```bash
+Created symlink /etc/systemd/system/multi-user.target.wants/vboxdrv.service → /lib/systemd/system/vboxdrv.service.
+Created symlink /etc/systemd/system/multi-user.target.wants/vboxballoonctrl-service.service → /lib/systemd/system/vboxballoonctrl-service.service.
+Created symlink /etc/systemd/system/multi-user.target.wants/vboxautostart-service.service → /lib/systemd/system/vboxautostart-service.service.
+Created symlink /etc/systemd/system/multi-user.target.wants/vboxweb-service.service → /lib/systemd/system/vboxweb-service.service.
+```
+Impliquant que plusieurs services virtualbox seront démarrables en tant que service, `vboxdrv`, `vboxballoonctrl`, `vboxautostart`, `vboxweb`, avec les commandes : 
+
+```bash
+sudo systemctl enable vboxdrv
+sudo systemctl enable vboxballoonctrl
+sudo systemctl enable vboxautostart
+sudo systemctl enable vboxweb
+```
+* Enfin, une dernière indication méritera investigation, parcequ'elle relève peut-être de l'hyperviseur, de la virtualisation mise en oeuvre par VirtualBox :
+```bash
+This system is currently not set up to build kernel modules.
+Please install the gcc make perl packages from your distribution.
+Please install the Linux kernel "header" files matching the current kernel
+for adding new hardware support to the system.
+The distribution packages containing the headers are probably:
+    linux-headers-amd64 linux-headers-4.9.0-7-amd64
+This system is currently not set up to build kernel modules.
+Please install the gcc make perl packages from your distribution.
+Please install the Linux kernel "header" files matching the current kernel
+for adding new hardware support to the system.
+The distribution packages containing the headers are probably:
+    linux-headers-amd64 linux-headers-4.9.0-7-amd64
+```
+
+
+
+# Conclusion
+
 Je  remarque deux choses : 
 
 * Dans le premier mode d'installation, on aune installation "propre", par le package manager, avec les garanties fournie spar le repository. Totuefois, je n'ai pas trouvé, pour ce mode d'installation, de procédure, automatique ou non, par laquelle il m'est possbile de vérifier quelles sont les clés disponibles pour le repository de backports debian / virtualbox  
