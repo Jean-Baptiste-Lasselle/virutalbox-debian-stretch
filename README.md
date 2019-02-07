@@ -121,15 +121,24 @@ sudo apt-get -f install
 
 ```
 
-Sont à noter plusieurs éléments quis emblent importants dans les logs du processud d'installation du package virtualbox : 
+## Exécution de `sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX`
 
-* D'abord, les logs mentionnent un problème, et qu'il faut le résoudre en exécutant "avec `sudo`" la commane `ccc` : 
+Lorsque l'on exécute la commande `sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX`, sans avoir exécuté avant la commande : 
+
+```bash
+sudo apt-get install -y linux-headers-amd64 linux-headers-4.9.0-7-amd64 gcc make perl
+```
+On constate un arrêt de l'exécution avec ereur, et des logs. Dans ces logs, on note plusieurs éléments : 
+
+* D'abord, les logs se terminent en mentionnant un problème, et qu'une fois réoslu le problème, il faudra ré-esayer d'exécuter "avec `sudo`" la commande `/sbin/vboxconfig` : 
 ```bash
 There were problems setting up VirtualBox.  To re-start the set-up process, run
  /sbin/vboxconfig
 as root.
 ```
-* Ensuite, on pourra noter que la procédue d'installation de virtualbox créée un grouep d'utilisateurs linux sur la machine debian :  le groupe `vboxusers`, qui est un _groupe système_.
+Donc, le processus exécutant la commande `dpkg -i $NOM_DE_FICHIER`, a déjà essayé d'exécuter `sudo /sbin/vboxconfig`, mais un problème est survenu.
+
+* Ensuite, on pourra noter que la procédure d'installation de virtualbox créée un groupe d'utilisateurs linux sur la machine debian :  le groupe `vboxusers`, qui est un _groupe système_.
 ```bash
 addgroup: The group `vboxusers' already exists as a system group. Exiting.
 ```
@@ -140,7 +149,7 @@ Created symlink /etc/systemd/system/multi-user.target.wants/vboxballoonctrl-serv
 Created symlink /etc/systemd/system/multi-user.target.wants/vboxautostart-service.service → /lib/systemd/system/vboxautostart-service.service.
 Created symlink /etc/systemd/system/multi-user.target.wants/vboxweb-service.service → /lib/systemd/system/vboxweb-service.service.
 ```
-Impliquant que plusieurs services virtualbox seront démarrables en tant que service, `vboxdrv`, `vboxballoonctrl`, `vboxautostart`, `vboxweb`, avec les commandes : 
+Impliquant que plusieurs exécutables virtualbox seront démarrables en tant que service, `vboxdrv`, `vboxballoonctrl`, `vboxautostart`, `vboxweb`, et sont activables en tant que service, avec les commandes : 
 
 ```bash
 sudo systemctl enable vboxdrv
@@ -148,7 +157,9 @@ sudo systemctl enable vboxballoonctrl
 sudo systemctl enable vboxautostart
 sudo systemctl enable vboxweb
 ```
-* Enfin, une dernière indication méritera investigation, parcequ'elle relève peut-être de l'hyperviseur, de la virtualisation mise en oeuvre par VirtualBox :
+
+* Enfin, une dernière indication mérite investigation, parcequ'il s'agit de faire le build d'un composant VirtualBox : 
+
 ```bash
 This system is currently not set up to build kernel modules.
 Please install the gcc make perl packages from your distribution.
@@ -163,7 +174,11 @@ for adding new hardware support to the system.
 The distribution packages containing the headers are probably:
     linux-headers-amd64 linux-headers-4.9.0-7-amd64
 ```
-
+Ainsi, il semble que ce soient là les erreurs rencontrées, que nous devons résoudre, pour essayer à nouveau l'éxécution de `sudo /sbin/vboxconfig`.
+Mais ces mentions sont claires, il s'agit de dépendances à l'exécution de `/sbin/vboxconfig`, que l'on peut installer de la manière suivante :
+```bash
+sudo apt-get install -y linux-headers-amd64 linux-headers-4.9.0-7-amd64 gcc make perl
+```
 
 
 # Conclusion
