@@ -1,14 +1,17 @@
 # Recette de provision de VirtualBox pour une machine Debian Stretch.
 
 
-# Références 
+# Introduction 
 
-* Sur la page accesible par le lien ci-dessous, on peut lire de source officielle qu'il faut (au Jeudi 16 Août 2018) configurer un repository particulier (de "back-ports"), pour procéder à l'installation de virtualbox par le package manager apt  :
+En cherchant sur le web une procédure "officielle", d'installation de VirtualBox, pour un poste de travail `Debian`, on tombe rapidement sur les pages ci-dessous : 
 
-https://wiki.debian.org/VirtualBox
-https://backports.debian.org/Instructions/
+* https://wiki.debian.org/VirtualBox
 
-Le repository à utiliser est celui de debian stretch, [`deb http://ftp.debian.org/debian stretch-backports main`] : 
+On peut lire de cette source officielle, qu'il faut (au Jeudi 16 Août 2018) configurer un repository particulier, pour procéder à l'installation de virtualbox par le package manager apt. Ce repository est un repository dit de "back-ports" au sens de `Debian` : 
+
+* https://backports.debian.org/Instructions/
+
+Le repository de backport à utiliser est maintenu par Oracle, [`http://download.virtualbox.org/virtualbox/debian`], à ajouter selon la procédure d'ajout de repo de backports : 
 
 ```
 Add backports to your sources.list
@@ -30,7 +33,7 @@ Add backports to your sources.list
 
 # Installation par le repository de `back-ports` debian maintenu par`Oracle`
 
-Cette installation est documentée sur le site poffciel Debian, à la page https://wiki.debian.org/VirtualBox .
+Cette installation est documentée sur le site offciel Debian, à la page https://wiki.debian.org/VirtualBox .
 
 ## Recette bash
 
@@ -40,7 +43,7 @@ export FICHIER_CONF=/etc/apt/sources.list.d/stretch-backports-repo.list
 export FICHIER_TEMP=$HOME/etc.apt.sources.list.d.stretch-backports-repo.list
 rm -f $FICHIER_TEMP
 touch $FICHIER_TEMP
-echo "deb http://ftp.debian.org/debian stretch-backports main" >> $FICHIER_TEMP
+echo "deb http://download.virtualbox.org/virtualbox/debian stretch contrib" >> $FICHIER_TEMP
 sudo rm -f $FICHIER_CONF
 sudo cp -f $FICHIER_TEMP $FICHIER_CONF
 # rétablissement des droits de propriété du système
@@ -68,17 +71,18 @@ sudo apt-get install -y virtualbox
 
 ## Remarques :  Sécurité
 
-Dans cette recette, la sécuritsation du repository Oracle repose sur une clé GPG téléchargée, à savoir `oracle_vbox_2016.asc` ( https://www.virtualbox.org/download/oracle_vbox_2016.asc )
+Dans cette recette, la sécurisation du repository Debian repose sur une clé GPG téléchargée, à savoir `oracle_vbox_2016.asc` ( https://www.virtualbox.org/download/oracle_vbox_2016.asc )
 
 Ceci me pose le problème de sécurité suivant : 
+* Je ne comprends pas la précédure de sécurité consistant à télécharger la cé de sécurisation du repository http://download.virtualbox.org/virtualbox/debian  , à l'URI https://www.virtualbox.org/download/oracle_vbox_2016.asc 
 * Je n'ai aucun moyen de vérifier quand et comment cette clé, sécurisant ce repository de backports debian, est mise à jour : 
   * Il me faudrait au moins un document officiel Oracle, dans lequel Oracle indique que https://www.virtualbox.org/download/oracle_vbox_2016.asc est bel et bien la clé de sécurité correspondant au repo de backport debian http://download.virtualbox.org/virtualbox/debian, offcialisant ce canal de distribution.
-  * Il me faudrait une visibilité quant à la politique de sécurité appliquée sur ce repository http://download.virtualbox.org/virtualbox/debian
+  * Il me faudrait une visibilité quant à la politique de sécurité appliquée sur ce repository http://download.virtualbox.org/virtualbox/debian   par Oracle.
 * http://download.virtualbox.org/virtualbox/debian   n'est pas sécurisé par https, et j'aimerais quelque chose de plus sécurisé.
 
 # Installation par téléchargement de binaires distribués par Oracle
 
-Je veux ici noter de plus, que sur le site officiel de VirtualBox, on trouve les liens de télépchargement de tous les binaires distribués par Oracles, ainsi que les checksum correspondant. Si bien qu'il est aussi possible d'installer virtualbox de la manière suivante : 
+Je veux ici noter de plus, que sur le site officiel de `VirtualBox`, on trouve les liens de télépchargement de tous les binaires distribués par Oracles, ainsi que les checksum correspondant. Si bien qu'il est aussi possible d'installer virtualbox de la manière suivante : 
 
 ## Recette bash
 
@@ -219,3 +223,18 @@ Voir, pour la gestion des repositories `apt-get` , `apk` et `yum` :
 
 * [`Redhat Satellite / Spacewalk`](https://spacewalkproject.github.io/) => pour `yum` / `CentOS`
 * [`Pulp repository manager`](https://pulpproject.org/) => pour `apt-get` , `apk` / `Ubuntu`, `Debian`, `Alpine`
+
+
+# Plus d'investigations : les 4 mystérieux
+
+Lorsque l'on a analysé la procédure d'installaiton de virtualbox, on a pu remarquer la mention de 4 exécutables utilisables en tant que services de l'OS DEbian Stretch : 
+
+* `vboxdrv` : 
+* `vboxballoonctrl-service`   : j'ai trouvé https://www.virtualbox.org/manual/ch09.html#vboxwatchdog  il semblerait que le remplaçant en cours du `ballon controller` soit devenu un certain `watchdog`
+* `vboxautostart-service` : 
+* `vboxweb-service` :   est lié au composant `vboxwebsrv`, comme le montre le script [`vboxweb-service.sh`](https://www.virtualbox.org/svn/vbox/trunk/src/VBox/Installer/linux/vboxweb-service.sh) qui permet de contrôle VirtualBox à distance, via une (pseudo) REST API.    cf. https://www.virtualbox.org/manual/ch09.html#vboxwebsrv-daemon 
+
+
+
+* Notons, à propos de ``
+
