@@ -1,5 +1,5 @@
 # virutalbox-debian-stretch
-Recette de provision de VirtualBOx pour une machine Debian Stretch.
+Recette de provision de VirtualBox pour une machine Debian Stretch.
 
 
 # Références 
