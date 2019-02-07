@@ -80,6 +80,38 @@ Ceci me pose le problème de sécurité suivant :
   * Il me faudrait une visibilité quant à la politique de sécurité appliquée sur ce repository http://download.virtualbox.org/virtualbox/debian   par Oracle.
 * http://download.virtualbox.org/virtualbox/debian   n'est pas sécurisé par https, et j'aimerais quelque chose de plus sécurisé.
 
+
+## furher : sums of keys
+
+On remmarque : 
+
+* D'un côté, la docuementation officlelle debian nous idique de télécharger la clé de repository Oracle, [clecle](ccc), à l'URI http://download.virtualbox.org/virtualbox/debian
+* D'un autre côté, un fichier `oracle_vbox_2016.asc` est bien présent sur l'emplacement serveur http://download.virtualbox.org/virtualbox/debian . Donc, pourquoi télécharger la clé de sécurisation du repostory http://download.virtualbox.org/virtualbox/debian à l'URI https://www.virtualbox.org/download/oracle_vbox_2016.asc , au lieu de http://download.virtualbox.org/virtualbox/debian/oracle_vbox_2016.asc ? 
+* Mieux, à l'emplacement serveur http://download.virtualbox.org/virtualbox/debian, on trouve aussi deux fichiers de somme de contrôle, `ccc` et`ccc`, et ces fichiers de comme contiennt une somme de contrôle pour le fichier `oracle_vbox_2016.asc` :  il faudrait donc vérifier la somme de contrôle de la clé téléchargée, avant de l'ajouter comme clé référencée avec une commande `apt-key add` : 
+
+```bash
+export NOM_CLE_SECURISATION_REPO_ORACLE_VBOX_DEBIAN_9=oracle_vbox_2016.asc
+wget http://download.virtualbox.org/virtualbox/debian/$NOM_CLE_SECURISATION_REPO_ORACLE_VBOX_DEBIAN_9
+wget http://download.virtualbox.org/virtualbox/debian/MD5SUMS
+wget http://download.virtualbox.org/virtualbox/debian/SHA256SUMS
+
+
+echo "Vérfication de la somme 'SHA2' de contrôle de la clé [$NOM_CLE_SECURISATION_REPO_ORACLE_VBOX_DEBIAN_9] de sécurisation du repostory de cbackports debian / virtualbox maintenu par Oracle [http://download.virtualbox.org/virtualbox/debian] "
+rm -f masomme.sha512sum
+cat SHA256SUMS|grep "$NOM_CLE_SECURISATION_REPO_ORACLE_VBOX_DEBIAN_9" >> masomme.sha512sum
+sha256sum -c masomme.sha512sum || echo "Le fichier téléchargé [$NOM_CLE_SECURISATION_REPO_ORACLE_VBOX_DEBIAN_9] a été corrompu, il ne correspond pas à la somme de contrôle 'SHA2' fournie par Oracle : [$(cat masomme.sha512sum)] " && exit 1
+
+echo "Vérfication de la somme 'MD5' de contrôle de la clé [$NOM_CLE_SECURISATION_REPO_ORACLE_VBOX_DEBIAN_9] de sécurisation du repostory de cbackports debian / virtualbox maintenu par Oracle [http://download.virtualbox.org/virtualbox/debian] "
+rm -f masomme.md5sum
+cat MD5SUMS|grep "$NOM_CLE_SECURISATION_REPO_ORACLE_VBOX_DEBIAN_9" >> masomme.md5sum
+sha256sum -c masomme.md5sum || echo "Le fichier téléchargé [$NOM_CLE_SECURISATION_REPO_ORACLE_VBOX_DEBIAN_9] a été corrompu, il ne correspond pas à la somme de contrôle 'MD5' fournie par Oracle : [$(cat masomme.md5sum)] " && exit 1
+
+# Et maintenant que l'on s'est assuré que toutes les vérifications ont été menées avec tous les voyants au vert : 
+sudo apt-key add oracle_vbox_2016.asc
+
+```
+
+
 # Installation par téléchargement de binaires distribués par Oracle
 
 Je veux ici noter de plus, que sur le site officiel de `VirtualBox`, on trouve les liens de télépchargement de tous les binaires distribués par Oracles, ainsi que les checksum correspondant. Si bien qu'il est aussi possible d'installer virtualbox de la manière suivante : 
@@ -106,7 +138,7 @@ wget $CHECKSUM_SHA2
 echo "Vérfication des sommes de contrôle des fichiers téléchargés"
 rm -f masomme.sha512sum
 cat SHA256SUMS|grep *~Debian~stretch_amd64.deb >> masomme.sha512sum
-sha256sum -c masomme.sha512sum || echo "Le fichier téléchargé [$NOM_FICHIER_DEB_INSTALLATION_VBOX] a été corrompu, il ne correspond pas à la somme de contrôle fournie par Oracle : [$(cat masomme.sha512sum)] "
+sha256sum -c masomme.sha512sum || echo "Le fichier téléchargé [$NOM_FICHIER_DEB_INSTALLATION_VBOX] a été corrompu, il ne correspond pas à la somme de contrôle fournie par Oracle : [$(cat masomme.sha512sum)] " && exit 1
 
 rm -f masomme.md5sum
 cat MD5SUMS|grep *~Debian~stretch_amd64.deb >> masomme.md5sum
