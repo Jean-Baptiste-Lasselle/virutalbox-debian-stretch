@@ -340,3 +340,35 @@ VBoxManage setproperty websrvauthlibrary null
 ```
 
 Donc, l'implémentation que je dois gfournir doit certainement être la fameuse `websrvauthlibrary`
+
+
+* Comment configurer `username` et `password` pour le serveur `vboxwebsrv` ? 
+* Comment configurer une VM pour qu'elle démarre avec l'hôte de vritualisation `VirtualBox` ? https://pgaskin.net/linux-tips/configuring-virtualbox-autostart/
+
+
+
+
+### Démarrer le serveur 
+
+Il faut juste fixer des varaibles d'envrionnement, et utiliser éventuellement des options d'invocation d'exécutable `GNU`  : 
+
+| Parameter | Description | default |
+| ------| ------| ------|
+| `USER` | ccc | `ccc` |
+| `HOST` | ccc | `ccc` |
+| `PORT` | ccc | `ccc` |
+| `SSL_KEYFILE` | ccc | ...? |
+| `SSL_PASSWORDFILE` | ccc | ...? |
+| `SSL_CACERT` | ccc | ...? |
+| `SSL_CAPATH` | CA certificate path | ...? |
+| `SSL_DHFILE` | DH file name or DH key length in bits | ...? |
+| `SSL_RANDFILE` | File containing seed for random number generator | ...? |
+| `TIMEOUT` | Session timeout in seconds, 0 disables timeouts  | `300` |
+| `CHECK_INTERVAL` | Frequency of timeout checks in seconds | `5` |
+| `THREADS` | Maximum number of worker threads to run in parallel  | `100` |
+| `KEEPALIVE` | Maximum number of requests before a socket will be closed | `100` |
+| `ROTATE` | Number of log files, 0 disables log rotation | `10` |
+| `LOGSIZE` | Maximum log file size to trigger rotation, in bytes  | `1MB` |
+| `LOGINTERVAL` | Maximum time interval to trigger log rotation, in seconds | 1 day = `24 * 60 * 60 ` seconds |
+
+
