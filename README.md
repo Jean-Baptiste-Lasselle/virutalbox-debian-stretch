@@ -352,6 +352,8 @@ Donc, l'implémentation que je dois gfournir doit certainement être la fameuse 
 
 Il faut juste fixer des varaibles d'envrionnement, et utiliser éventuellement des options d'invocation d'exécutable `GNU`  : 
 
+où retrouver ce tableau pour le terminer : https://www.virtualbox.org/manual/ch09.html#vboxwebsrv-daemon
+
 | Parameter | Description | default |
 | ------| ------| ------|
 | `USER` | ccc | `ccc` |
