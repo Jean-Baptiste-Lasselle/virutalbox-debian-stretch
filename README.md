@@ -11,7 +11,7 @@ On peut lire de cette source officielle, qu'il faut (au Jeudi 16 Août 2018) con
 
 * https://backports.debian.org/Instructions/
 
-Le repository de backport à utiliser est maintenu par Oracle, [`http://download.virtualbox.org/virtualbox/debian`], à ajouter selon la procédure d'ajout de repo de backports : 
+Le repository de backport à utiliser est maintenu par Oracle, [`http://download.virtualbox.org/virtualbox/debian`], à configurer selon la procédure standard d'ajout de repo de backports : 
 
 ```
 Add backports to your sources.list
