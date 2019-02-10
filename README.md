@@ -71,7 +71,7 @@ sudo apt-get install -y virtualbox
 
 ## Remarques :  Sécurité
 
-Dans cette recette, la sécurisation du repository Debian repose sur une clé GPG téléchargée, à savoir `oracle_vbox_2016.asc` ( https://www.virtualbox.org/download/oracle_vbox_2016.asc )
+Dans cette recette, la sécurisation du repository Debian repose sur une clé `PGP` téléchargée, à savoir `oracle_vbox_2016.asc` ( https://www.virtualbox.org/download/oracle_vbox_2016.asc )
 
 Ceci me pose le problème de sécurité suivant : 
 * Je ne comprends pas la précédure de sécurité consistant à télécharger la cé de sécurisation du repository http://download.virtualbox.org/virtualbox/debian  , à l'URI https://www.virtualbox.org/download/oracle_vbox_2016.asc 
@@ -85,7 +85,7 @@ Ceci me pose le problème de sécurité suivant :
 
 On remarque : 
 
-* D'un côté, la docuementation officlelle debian nous idique de télécharger la clé de repository Oracle, [oracle_vbox_2016.asc](http://download.virtualbox.org/virtualbox/debian), à l'URI http://download.virtualbox.org/virtualbox/debian
+* D'un côté, la documentation officlelle `Debian` nous idique de télécharger la clé de repository Oracle, [oracle_vbox_2016.asc](http://download.virtualbox.org/virtualbox/debian), à l'URI http://download.virtualbox.org/virtualbox/debian
 * D'un autre côté, un fichier `oracle_vbox_2016.asc` est bien présent sur l'emplacement serveur http://download.virtualbox.org/virtualbox/debian . 
 * Donc, pourquoi télécharger la clé de sécurisation du repostory http://download.virtualbox.org/virtualbox/debian à l'URI https://www.virtualbox.org/download/oracle_vbox_2016.asc , au lieu de http://download.virtualbox.org/virtualbox/debian/oracle_vbox_2016.asc ? 
 * Mieux, à l'emplacement serveur http://download.virtualbox.org/virtualbox/debian, on trouve aussi deux fichiers de somme de contrôle, `MD5SUMS` et`SHA256SUMS`, et ces fichiers de comme contiennent une somme de contrôle pour le fichier `oracle_vbox_2016.asc` :  
@@ -138,7 +138,7 @@ Pourquoi 3 signatures `PGP` à la racine du même repo ?
 
 # Installation par téléchargement de binaires distribués par Oracle
 
-Je veux ici noter de plus, que sur le site officiel de `VirtualBox`, on trouve les liens de télépchargement de tous les binaires distribués par Oracles, ainsi que les checksum correspondant. Si bien qu'il est aussi possible d'installer virtualbox de la manière suivante : 
+Je veux ici noter de plus, que sur le site officiel de `VirtualBox`, on trouve les liens de téléchargement de tous les binaires distribués par `Oracle`, ainsi que les `checksum` correspondant. Si bien qu'il est aussi possible d'installer virtualbox de la manière suivante : 
 
 ## Recette bash
 
@@ -169,10 +169,7 @@ cat MD5SUMS|grep *~Debian~stretch_amd64.deb >> masomme.md5sum
 md5sum -c masomme.md5sum || echo "Le fichier téléchargé [$NOM_FICHIER_DEB_INSTALLATION_VBOX] a été corrompu, il ne correspond pas à la somme de contrôle fournie par Oracle : [$(cat masomme.md5sum)] "
 
 
-# Exécution de l'installation du package debian : l'intégrité du package a été doublement vérifiée. 
-sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX
-
-# L'exécution de ce processus d'installation log une indication : 
+# L'exécution du processus d'installation `sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX`  log une indication : 
 # 
 # > There were problems setting up VirtualBox.  To re-start the set-up process, run
 # >  /sbin/vboxconfig
@@ -185,17 +182,21 @@ sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX
 sudo apt-get install -y linux-headers-amd64 linux-headers-4.9.0-7-amd64 gcc make perl
 
 # Maintenant, on peut ré-essayer d'exécuter [/sbin/vboxconfig]
-sudo /sbin/vboxconfig
+# sudo /sbin/vboxconfig
 
-echo "Et bingo, nous sommes bons! "
+
+# Exécution de l'installation du package debian : l'intégrité du package a été doublement vérifiée. 
+sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX
+
+echo "Et bingo, nous sommes bons :  lees dépendances du processus exécutant la commande [sudodpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX] ont toutes été correctement installées, "
 echo "Notons : l'idéal sera, pour une recette de \"production\", d'installer ces dépendances avant même l'exécuation [dpkg -i \$NOM_FICHIER_PACKAGE_LINUX_DEBIAN]"
 
 
 
-# Nous veneons d'installer un package debian (virutalbox), manuellement. Il peut lui manquer des dépendances.
-# apt-get a la capacité de résoudre ces dépendances automatiquement, avec la commande : 
+# Nous veneons d'installer un package debian (virutalbox), "manuellement", i.e. avec 'dpkg -i ....' :  
+# Il peut lui manquer des dépendances.
+# `apt-get` a la capacité de résoudre ces dépendances automatiquement, avec la commande : 
 sudo apt-get -f install
-
 ```
 
 ## Remarques : Exécution de `sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX`
@@ -262,9 +263,7 @@ sudo apt-get install -y linux-headers-amd64 linux-headers-4.9.0-7-amd64 gcc make
 
 Je  remarque deux choses : 
 
-* Dans le premier mode d'installation, on aune installation "propre", par le package manager, avec les garanties fournies par le repository, quant à la résolutiona utolatique des dépendances, et l'intégration à l'instance d'OS.
-Toutefois, je n'ai pas trouvé, pour ce mode d'installation, quelques problématiques de sécurité se posent, et l'application d'une politique de gestion de la sécurité est difficile avec cette solution de rpovision de `VirtualBox`.
-
+* Dans le premier mode d'installation, on a une installation "propre", par le package manager, avec les garanties fournies par le repository, quant à la résolution automatique des dépendances, et l'intégration à l'instance d'OS. Toutefois, je n'ai pas trouvé, pour ce mode d'installation, quelques problématiques de sécurité se posent, et l'application d'une politique de gestion de la sécurité est difficile avec cette solution de rpovision de `VirtualBox`.
 * Dans le second mode d'isntallation : 
   * j'ai une procédure de sécurité qui constitue un cycle complet  : il faut aller vérifier régulièrement de nouveaux contenus ont été publiés par Oracle sur virtualbox.org
   * une installation que je dois concenvoir entièrement au lieu de laisser faire le package manager, 
