@@ -231,9 +231,9 @@ Impliquant que plusieurs exécutables virtualbox seront démarrables en tant que
 
 ```bash
 sudo systemctl enable vboxdrv
-sudo systemctl enable vboxballoonctrl
-sudo systemctl enable vboxautostart
-sudo systemctl enable vboxweb
+sudo systemctl enable vboxballoonctrl-service
+sudo systemctl enable vboxautostart-service
+sudo systemctl enable vboxweb-service
 ```
 
 * Enfin, une dernière indication mérite investigation, parcequ'il s'agit de faire le build d'un composant VirtualBox : 
