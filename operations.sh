@@ -1,12 +1,27 @@
 #!/bin/bash
 
+if [ -f ./DERNIERE_VERSION_VIRTUALBOX_DISTRIBUEE.pegasus ]; then rm -f ./DERNIERE_VERSION_VIRTUALBOX_DISTRIBUEE.pegasus; fi
+wget -O voyons.ca  https://download.virtualbox.org/virtualbox/LATEST.TXT
+export DERNIERE_VERSION_VIRTUALBOX_DISTRIBUEE=$(cat ./DERNIERE_VERSION_VIRTUALBOX_DISTRIBUEE.pegasus)
+rm -f ./voyons.ca
+
+export NOM_DE_CODE_RELEASE_DEBIAN=$(lsb_release -a|grep Codename|awk -F ']' '{print $1}'|awk '{print $2}')
+
+wget -O nom_fichier_package_debian_a_telecharger https://download.virtualbox.org/virtualbox/6.0.4/  
+cat ./nom_fichier_package_debian_a_telecharger |grep amd64|grep Debian|grep $NOM_DE_CODE_RELEASE_DEBIAN|awk -F '"' '{print $2}'
+# exemple : virtualbox-6.0_6.0.4-128413~Debian~stretch_amd64.deb
+export NOM_FICHIER_PACKAGE_DEBIAN=$(cat ./nom_fichier_package_debian_a_telecharger |grep amd64|grep Debian|grep stretch|awk -F '"' 
+
 # télécharger le fichier *.deb d'installation de virtualbox sous debian stretch
 # J'ai trouvé ces 3 URI de téléchargement, en allant sur le site officiel de virutalbox, au menu "dowloads", i.e. 
 # https://www.virtualbox.org/wiki/Linux_Downloads
-export URI_TELECHARGEMENT_PACKAGE_VBOX_DEBIAN=https://download.virtualbox.org/virtualbox/6.0.4/virtualbox-6.0_6.0.4-128413~Debian~stretch_amd64.deb
+export URI_TELECHARGEMENT_PACKAGE_VBOX_DEBIAN=https://download.virtualbox.org/virtualbox/$DERNIERE_VERSION_VIRTUALBOX_DISTRIBUEE/virtualbox-6.0_6.0.4-128413~Debian~stretch_amd64.deb
 export NOM_FICHIER_DEB_INSTALLATION_VBOX=virtualbox-6.0_6.0.4-128413~Debian~stretch_amd64.deb
 export CHECKSUM_MD5=https://www.virtualbox.org/download/hashes/6.0.4/MD5SUMS
 export CHECKSUM_SHA2=https://www.virtualbox.org/download/hashes/6.0.4/SHA256SUMS
+
+
+
 
 mkdir ./provision_virtual_box/
 cd ./provision_virtual_box/
