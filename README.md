@@ -263,16 +263,17 @@ sudo apt-get install -y linux-headers-amd64 linux-headers-4.9.0-7-amd64 gcc make
 
 Je  remarque deux choses : 
 
-* Dans le premier mode d'installation, on a une installation "propre", par le package manager, avec les garanties fournies par le repository, quant à la résolution automatique des dépendances, et l'intégration à l'instance d'OS. Toutefois, je n'ai pas trouvé, pour ce mode d'installation, quelques problématiques de sécurité se posent, et l'application d'une politique de gestion de la sécurité est difficile avec cette solution de rpovision de `VirtualBox`.
-* Dans le second mode d'isntallation : 
+* Dans le premier mode d'installation, on a une installation "propre", par le package manager, avec les garanties fournies par le repository, quant à la résolution automatique des dépendances, et l'intégration à l'instance d'OS. Toutefois, pour ce mode d'installation, quelques problématiques de sécurité se posent, et l'application d'une politique de gestion de la sécurité est difficile avec cette solution de provision de `VirtualBox`.
+* Dans le second mode d'installation : 
   * j'ai une procédure de sécurité qui constitue un cycle complet  : il faut aller vérifier régulièrement de nouveaux contenus ont été publiés par Oracle sur virtualbox.org
   * une installation que je dois concenvoir entièrement au lieu de laisser faire le package manager, 
   * j'obtiens manifestement avec cette méthode d'installation, une version plus récente de virutalbox.
 
-En conclusion, je pense que je suis là dans le cas typique pour lequel il serait jsutifié que je me monte moi-même mes repositories `apt-get` , `apk` et `yum` pour distribuer les paquets virutalbox les plus frais : 
+En conclusion, je pense que je suis là dans le cas typique pour lequel il serait jsutifié que je me monte moi-même mes repositories `apt-get` , `apk` et `yum` pour distribuer les paquets virutalbox les plus frais, tout en appliquant une politique de gestion de la sécurité aux contenu délivré par ce canal de distribution : 
 
-* Il s'agit d'avoir dans un repository géré en interne, des versions plsu récentes de virtualbox, quelle celles distribuées via le repository Oracle correspondant
+* Il s'agit d'avoir dans un repository géré en interne, des versions plus récentes de virtualbox, quelle celles distribuées via le repository Oracle correspondant
 * Il s'agit de régler un problème posé par l'installation avec `dpkg -i $NOM_FICHIER_LINUX_DEBIAN`  : en isnallant virtualbox de cette manière, la commandes `sudo apt-get update -y` et  `sudo apt-get upgrade -y`, n'impliqueront aucune mise à jour, ni aucune montée de verion de virtualbox, sur le `poste-devops-typique`.
+* Et d'appliquer la politique de gestion del a éscurité en vigueur, sur ce nouveau canal de distribution, comme pour les  autres.
 
 Voir, pour la gestion des repositories `apt-get` , `apk` et `yum` : 
 
