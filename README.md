@@ -441,5 +441,12 @@ sudo VBoxManage extpack install --replace ./Oracle_VM_VirtualBox_Extension_Pack-
 
 !["_Default Machine Folder_"](https://github.com/Jean-Baptiste-Lasselle/virutalbox-debian-stretch/raw/master/docs/VIRTUALBOX_UPGRADES_DISCARDS_CONFIG_EXAMPLE_DEFAULT_MACHINE_FOLDER_2019-05-09%2021-22-36.png)
 
+* Pour apporter une solution au problème, j'ai du : 
+  * m'assurer du droit en écriture lecture sur tous les fichiers/répertoires (inodes) du répertoire "_Default Machine Folder_`=/home/jibl/IAAS/virtualbox/travail/poste-devops-typique/`"
+  * pour chaque VM, créer une nouvelle VM à partir du disque dur persisté sous forme de fichier `*.vmdk/*.ova`, déjà existant. détriure ensuite l'ancienne VM, cela produira une erreur souhaitable et logique, qui empêche de détruire le disque dur associé.
+  * il est à vérifier un petit nettoyage plsu complet et sérieux
+  * et voir comment automatiser avec garantie d'idempotence, ces opérations, comment le faire la la plsu jolie des manières.
 
+
+  
 
