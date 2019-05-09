@@ -374,3 +374,66 @@ où retrouver ce tableau pour le terminer : https://www.virtualbox.org/manual/ch
 | `LOGINTERVAL` | Maximum time interval to trigger log rotation, in seconds | 1 day = `24 * 60 * 60 ` seconds |
 
 
+# Opérations Standard : Updates & Upgrades
+
+
+VirtuaBox suggère de lui-même le téléchargement des upgrades / updates, en poussant des notificatons : 
+
+* Comment automatiser la récupérations du signal envoyé, et du lien de téléchargemnt envoyé ? 
+* Après le stéléchargement, j'ai effectué :
+
+```bash
+# le fichier téléchargé 
+export FICHIER_UPGRADE_VBOX_DEB=virtualbox-6.0_6.0.6-130049~Debian~stretch_amd64.deb
+sudo dpkg -i ./$FICHIER_UPGRADE_VBOX_DEB
+
+```
+
+ce qui donne lasortie standard : 
+
+```bash
+jibl@poste-devops-jbl-16gbram:~/Downloads$ sudo dpkg -i virtualbox-6.0_6.0.6-130049~Debian~stretch_amd64.deb 
+(Reading database ... 190664 files and directories currently installed.)
+Preparing to unpack virtualbox-6.0_6.0.6-130049~Debian~stretch_amd64.deb ...
+Unpacking virtualbox-6.0 (6.0.6-130049~Debian~stretch) over (6.0.4-128413~Debian~stretch) ...
+Setting up virtualbox-6.0 (6.0.6-130049~Debian~stretch) ...
+addgroup: The group `vboxusers' already exists as a system group. Exiting.
+Created symlink /etc/systemd/system/multi-user.target.wants/vboxdrv.service → /lib/systemd/system/vboxdrv.service.
+Created symlink /etc/systemd/system/multi-user.target.wants/vboxballoonctrl-service.service → /lib/systemd/system/vboxballoonctrl-service.service.
+Created symlink /etc/systemd/system/multi-user.target.wants/vboxautostart-service.service → /lib/systemd/system/vboxautostart-service.service.
+Created symlink /etc/systemd/system/multi-user.target.wants/vboxweb-service.service → /lib/systemd/system/vboxweb-service.service.
+Processing triggers for systemd (232-25+deb9u11) ...
+Processing triggers for gnome-menus (3.13.3-9) ...
+Processing triggers for desktop-file-utils (0.23-1) ...
+Processing triggers for mime-support (3.60) ...
+Processing triggers for hicolor-icon-theme (0.15-1) ...
+Processing triggers for shared-mime-info (1.8-1+deb9u1) ...
+Unknown media type in type 'all/all'
+Unknown media type in type 'all/allfiles'
+jibl@poste-devops-jbl-16gbram:~/Downloads$ 
+jibl@poste-devops-jbl-16gbram:~/Downloads$ sudo apt-get install -y 
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+0 upgraded, 0 newly installed, 0 to remove and 122 not upgraded.
+jibl@poste-devops-jbl-16gbram:~/Downloads$ sudo apt-get update -y 
+Ign:1 http://ftp.fr.debian.org/debian stretch InRelease
+Get:2 http://ftp.fr.debian.org/debian stretch-updates InRelease [91.0 kB]
+Hit:3 http://security.debian.org/debian-security stretch/updates InRelease                        
+Hit:4 http://ftp.fr.debian.org/debian stretch Release                                             
+Hit:6 https://packagecloud.io/AtomEditor/atom/any any InRelease
+Fetched 91.0 kB in 1s (77.6 kB/s)
+Reading package lists... Done
+jibl@poste-devops-jbl-16gbram:~/Downloads$ 
+
+```
+* Pour l'installation del'extension Pack, il s'agit de télécharger un fichier qui n'est pa exécutable, et de le fournir en argument d'une commande `VBoxManage` : 
+
+```bash
+wget https://download.virtualbox.org/virtualbox/6.0.6/Oracle_VM_VirtualBox_Extension_Pack-6.0.6.vbox-extpack
+sudo VBoxManage extpack install --replace ./Oracle_VM_VirtualBox_Extension_Pack-6.0.6.vbox-extpack
+
+```
+
+
+
