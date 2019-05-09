@@ -427,13 +427,19 @@ Reading package lists... Done
 jibl@poste-devops-jbl-16gbram:~/Downloads$ 
 
 ```
-* Pour l'installation del'extension Pack, il s'agit de télécharger un fichier qui n'est pa exécutable, et de le fournir en argument d'une commande `VBoxManage` : 
+* Pour l'installation de l'_Extension Pack_, il s'agit de télécharger un fichier qui n'est pa exécutable, et de le fournir en argument d'une commande `VBoxManage` : 
 
 ```bash
 wget https://download.virtualbox.org/virtualbox/6.0.6/Oracle_VM_VirtualBox_Extension_Pack-6.0.6.vbox-extpack
 sudo VBoxManage extpack install --replace ./Oracle_VM_VirtualBox_Extension_Pack-6.0.6.vbox-extpack
 
 ```
+
+* Il est à noter que ces opérations d'upgrade / update, impliquent une remise aux valeurs par défaut de la configuration de VirtualBox. Pour effectuer correctement ces opérations, il faut donc aussi automatiser la provision de la configuratyion propre à l'environnement d'exploitation du logiciel. Das le point suivant, un screenshot réalisé juste après un upgrade / update virtualbox, montrant que le paramètre de configuration "_Default Machine Folder_" a Bel et bien été re-définit à sa valeur par défaut.
+
+* Notamment, un problème peut apparaître, concernant un paramètre de confiugration de VirtualBox, appelé "_Default Machine Folder_" par la terminologie `VirtualBox`, et duipermet de spécifier le répertroire dans leqeul virutalbox persistye sous forme de fichiers ".vbox" et autres fichiers de virtualisation, l'état des VMs : 
+
+!["_Default Machine Folder_"](cccc)
 
 
 
