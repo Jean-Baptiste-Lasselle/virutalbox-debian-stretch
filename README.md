@@ -439,7 +439,7 @@ sudo VBoxManage extpack install --replace ./Oracle_VM_VirtualBox_Extension_Pack-
 
 * Notamment, un problème peut apparaître, concernant un paramètre de confiugration de VirtualBox, appelé "_Default Machine Folder_" par la terminologie `VirtualBox`, et duipermet de spécifier le répertroire dans leqeul virutalbox persistye sous forme de fichiers ".vbox" et autres fichiers de virtualisation, l'état des VMs : 
 
-!["_Default Machine Folder_"](cccc)
+!["_Default Machine Folder_"](https://github.com/Jean-Baptiste-Lasselle/virutalbox-debian-stretch/raw/master/docs/VIRTUALBOX_UPGRADES_DISCARDS_CONFIG_EXAMPLE_DEFAULT_MACHINE_FOLDER_2019-05-09%2021-22-36.png)
 
 
 
