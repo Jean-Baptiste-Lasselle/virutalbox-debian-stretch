@@ -446,6 +446,7 @@ sudo VBoxManage extpack install --replace ./Oracle_VM_VirtualBox_Extension_Pack-
   * pour chaque VM, créer une nouvelle VM à partir du disque dur persisté sous forme de fichier `*.vmdk/*.ova`, déjà existant. détriure ensuite l'ancienne VM, cela produira une erreur souhaitable et logique, qui empêche de détruire le disque dur associé.
   * il est à vérifier un petit nettoyage plsu complet et sérieux
   * et voir comment automatiser avec garantie d'idempotence, ces opérations, comment le faire la la plsu jolie des manières.
+* Une dernière mesure est peut-être à prendre : l'ajout de l'opérateur dans le groupe virtualbox?
 
 
   
