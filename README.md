@@ -435,9 +435,9 @@ sudo VBoxManage extpack install --replace ./Oracle_VM_VirtualBox_Extension_Pack-
 
 ```
 
-* Il est à noter que ces opérations d'upgrade / update, impliquent une remise aux valeurs par défaut de la configuration de VirtualBox. Pour effectuer correctement ces opérations, il faut donc aussi automatiser la provision de la configuratyion propre à l'environnement d'exploitation du logiciel. Das le point suivant, un screenshot réalisé juste après un upgrade / update virtualbox, montrant que le paramètre de configuration "_Default Machine Folder_" a Bel et bien été re-définit à sa valeur par défaut.
+* Il est à noter que ces opérations d'upgrade / update, impliquent une remise aux valeurs par défaut de la configuration de VirtualBox. Pour effectuer correctement ces opérations, il faut donc aussi automatiser la provision de la configuratyion propre à l'environnement d'exploitation du logiciel. Das le point suivant, un screenshot réalisé juste après un upgrade / update virtualbox, montrant que le paramètre de configuration "_Default Machine Folder_" a Bel et bien été re-définit à sa valeur par défaut. Mieux, en faisant la recherche de fichiers visible dans le shell au second plan, je montre que ma configuration originale était le répertoire "_Default Machine Folder_`=/home/jibl/IAAS/virtualbox/travail/poste-devops-typique/`" , et qu'ell ea été redéfinit  à la valeur par défault "_Default Machine Folder_`=/home/jibl/VirtualBox\ VMs/`"
 
-* Notamment, un problème peut apparaître, concernant un paramètre de confiugration de VirtualBox, appelé "_Default Machine Folder_" par la terminologie `VirtualBox`, et duipermet de spécifier le répertroire dans leqeul virutalbox persistye sous forme de fichiers ".vbox" et autres fichiers de virtualisation, l'état des VMs : 
+* Notamment, un problème peut apparaître, concernant un paramètre de confiugration de VirtualBox, appelé "_Default Machine Folder_" par la terminologie `VirtualBox`, qui permet de spécifier le répertroire dans leqeul virtualbox persiste sous forme de fichiers "`.vbox`" et autres fichiers de virtualisation, l'état des VMs : 
 
 !["_Default Machine Folder_"](https://github.com/Jean-Baptiste-Lasselle/virutalbox-debian-stretch/raw/master/docs/VIRTUALBOX_UPGRADES_DISCARDS_CONFIG_EXAMPLE_DEFAULT_MACHINE_FOLDER_2019-05-09%2021-22-36.png)
 
