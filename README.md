@@ -346,7 +346,11 @@ Donc, l'implémentation que je dois gfournir doit certainement être la fameuse 
 * Comment configurer une VM pour qu'elle démarre avec l'hôte de vritualisation `VirtualBox` ? https://pgaskin.net/linux-tips/configuring-virtualbox-autostart/
 
 
+* comment développer un module d'authentication pour : https://download.virtualbox.org/virtualbox/4.1.20/SDKRef.pdf#subsection.5.105.3
 
+```bash
+VBoxManage setproperty websrvauthlibrary mon-module-d-authentification-custom
+```
 
 ### Démarrer le serveur 
 
