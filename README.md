@@ -377,6 +377,13 @@ où retrouver ce tableau pour le terminer : https://www.virtualbox.org/manual/ch
 | `LOGSIZE` | Maximum log file size to trigger rotation, in bytes  | `1MB` |
 | `LOGINTERVAL` | Maximum time interval to trigger log rotation, in seconds | 1 day = `24 * 60 * 60 ` seconds |
 
+### Développer un module d'authentification VirtualBox Server
+
+Pour développer un tel module, je peux utiliser (c'est le seul espoir de toute façon, après, on entyre dans le core code de VirtualBox) le `Virtual Box SDK`, notammant sa version en Java. 
+
+* Il y a aussi la `SOAP API`, mais ce qui me pose problème, c'est le module d'Authentification à la SOAP API. Pour le remplacer, je vais : 
+  * rendre impossible tout appel de la SOAP API
+  * développer un module REST API, avec derrière un flux Kafka.
 
 # Opérations Standard : Updates & Upgrades
 
