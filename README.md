@@ -383,7 +383,11 @@ Pour développer un tel module, je peux utiliser (c'est le seul espoir de toute 
 
 * Il y a aussi la `SOAP API`, mais ce qui me pose problème, c'est le module d'Authentification à la SOAP API. Pour le remplacer, je vais : 
   * rendre impossible tout appel de la SOAP API
-  * développer un module REST API, avec derrière un flux Kafka.
+  * développer un module REST API, avec derrière un flux Kafka : un module externe d'authentification VirtualBox, OpenID Connect, avec test Keycloak
+
+* Un exemple de module externe d'authentification VirutalBOx, qui permet la mise en oeuvre de l'authentification `LDAP` à la SOAP API (TODO: retrouver le code source + build from source, pour modification jusqu'à avoir `OpenID Connect` au lieu de `LDAP/SSSD`) : 
+
+https://nnc3.com/mags/LM10/Magazine/Archive/2010/118/018-020_Vbox/article.html
 
 # Opérations Standard : Updates & Upgrades
 
