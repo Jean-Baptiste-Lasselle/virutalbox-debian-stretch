@@ -1,17 +1,17 @@
 # Recette de provision de VirtualBox pour une machine Debian Stretch.
 
 
-# Introduction 
+# Introduction
 
-En cherchant sur le web une procédure "officielle", d'installation de VirtualBox, pour un poste de travail `Debian`, on tombe rapidement sur les pages ci-dessous : 
+En cherchant sur le web une procédure "officielle", d'installation de VirtualBox, pour un poste de travail `Debian`, on tombe rapidement sur les pages ci-dessous :
 
 * https://wiki.debian.org/VirtualBox
 
-On peut lire de cette source officielle, qu'il faut (au Jeudi 16 Août 2018) configurer un repository particulier, pour procéder à l'installation de virtualbox par le package manager apt. Ce repository est un repository dit de "back-ports" au sens de `Debian` : 
+On peut lire de cette source officielle, qu'il faut (au Jeudi 16 Août 2018) configurer un repository particulier, pour procéder à l'installation de virtualbox par le package manager apt. Ce repository est un repository dit de "back-ports" au sens de `Debian` :
 
 * https://backports.debian.org/Instructions/
 
-Le repository de backport à utiliser est maintenu par Oracle, [`http://download.virtualbox.org/virtualbox/debian`], à configurer selon la procédure standard d'ajout de repo de backports : 
+Le repository de backport à utiliser est maintenu par Oracle, [`http://download.virtualbox.org/virtualbox/debian`], à configurer selon la procédure standard d'ajout de repo de backports :
 
 ```
 Add backports to your sources.list
@@ -73,9 +73,9 @@ sudo apt-get install -y virtualbox
 
 Dans cette recette, la sécurisation du repository Debian repose sur une clé `PGP` téléchargée, à savoir `oracle_vbox_2016.asc` ( https://www.virtualbox.org/download/oracle_vbox_2016.asc )
 
-Ceci me pose le problème de sécurité suivant : 
-* Je ne comprends pas la précédure de sécurité consistant à télécharger la cé de sécurisation du repository http://download.virtualbox.org/virtualbox/debian  , à l'URI https://www.virtualbox.org/download/oracle_vbox_2016.asc 
-* Je n'ai aucun moyen de vérifier quand et comment cette clé, sécurisant ce repository de backports debian, est mise à jour : 
+Ceci me pose le problème de sécurité suivant :
+* Je ne comprends pas la précédure de sécurité consistant à télécharger la cé de sécurisation du repository http://download.virtualbox.org/virtualbox/debian  , à l'URI https://www.virtualbox.org/download/oracle_vbox_2016.asc
+* Je n'ai aucun moyen de vérifier quand et comment cette clé, sécurisant ce repository de backports debian, est mise à jour :
   * Il me faudrait au moins un document officiel Oracle, dans lequel Oracle indique que https://www.virtualbox.org/download/oracle_vbox_2016.asc est bel et bien la clé de sécurité correspondant au repo de backport debian http://download.virtualbox.org/virtualbox/debian, offcialisant ce canal de distribution.
   * Il me faudrait une visibilité quant à la politique de sécurité appliquée sur ce repository http://download.virtualbox.org/virtualbox/debian   par Oracle.
 * http://download.virtualbox.org/virtualbox/debian   n'est pas sécurisé par https, et j'aimerais quelque chose de plus sécurisé.
@@ -83,11 +83,11 @@ Ceci me pose le problème de sécurité suivant :
 
 ## furher : sums of keys
 
-On remarque : 
+On remarque :
 
 * D'un côté, la documentation officlelle `Debian` nous idique de télécharger la clé de repository Oracle, [oracle_vbox_2016.asc](http://download.virtualbox.org/virtualbox/debian), à l'URI http://download.virtualbox.org/virtualbox/debian
-* D'un autre côté, un fichier `oracle_vbox_2016.asc` est bien présent sur l'emplacement serveur http://download.virtualbox.org/virtualbox/debian . 
-* Donc, pourquoi télécharger la clé de sécurisation du repostory http://download.virtualbox.org/virtualbox/debian à l'URI https://www.virtualbox.org/download/oracle_vbox_2016.asc , au lieu de http://download.virtualbox.org/virtualbox/debian/oracle_vbox_2016.asc ? 
+* D'un autre côté, un fichier `oracle_vbox_2016.asc` est bien présent sur l'emplacement serveur http://download.virtualbox.org/virtualbox/debian .
+* Donc, pourquoi télécharger la clé de sécurisation du repostory http://download.virtualbox.org/virtualbox/debian à l'URI https://www.virtualbox.org/download/oracle_vbox_2016.asc , au lieu de http://download.virtualbox.org/virtualbox/debian/oracle_vbox_2016.asc ?
 * Mieux, à l'emplacement serveur http://download.virtualbox.org/virtualbox/debian, on trouve aussi deux fichiers de somme de contrôle, `MD5SUMS` et`SHA256SUMS`, et ces fichiers de comme contiennent une somme de contrôle pour le fichier `oracle_vbox_2016.asc` :  
 
 ```bash
@@ -102,10 +102,10 @@ jibl@poste-devops-jbl-16gbram:~/IAAS/virtualbox/garage$ cat MD5SUMS|grep oracle_
 35eac5b13a7c055578d33115b1864740 *oracle_vbox_2016.asc
 jibl@poste-devops-jbl-16gbram:~/IAAS/virtualbox/garage$ cat SHA256SUMS|grep oracle_vbox_2016.asc
 49e6801d45f6536232c11be6cdb43fa8e0198538d29d1075a7e10165e1fbafe2 *oracle_vbox_2016.asc
-jibl@poste-devops-jbl-16gbram:~/IAAS/virtualbox/garage$ 
+jibl@poste-devops-jbl-16gbram:~/IAAS/virtualbox/garage$
 ```
 
-* Il faudrait donc vérifier la somme de contrôle de la clé téléchargée, avant de l'ajouter comme clé référencée avec une commande `apt-key add` : 
+* Il faudrait donc vérifier la somme de contrôle de la clé téléchargée, avant de l'ajouter comme clé référencée avec une commande `apt-key add` :
 
 ```bash
 export NOM_CLE_SECURISATION_REPO_ORACLE_VBOX_DEBIAN_9=oracle_vbox_2016.asc
@@ -124,21 +124,21 @@ rm -f masomme.md5sum
 cat MD5SUMS|grep "$NOM_CLE_SECURISATION_REPO_ORACLE_VBOX_DEBIAN_9" >> masomme.md5sum
 sha256sum -c masomme.md5sum || echo "Le fichier téléchargé [$NOM_CLE_SECURISATION_REPO_ORACLE_VBOX_DEBIAN_9] a été corrompu, il ne correspond pas à la somme de contrôle 'MD5' fournie par Oracle : [$(cat masomme.md5sum)] " && exit 1
 
-# Et maintenant que l'on s'est assuré que toutes les vérifications ont été menées avec tous les voyants au vert : 
+# Et maintenant que l'on s'est assuré que toutes les vérifications ont été menées avec tous les voyants au vert :
 sudo apt-key add oracle_vbox_2016.asc
 
 ```
-Enfin, toujours à l'URI de la racine du repo de backport debian maintenu par Oracle, j'ai trouvé deux autres clés `PGP`, qu'il faut manifestement aussi vérifier et pour lesquelles il faut configurer le package manager avec `apt-key add $NOM_FICHIER_CLE_PGP.asc` : 
+Enfin, toujours à l'URI de la racine du repo de backport debian maintenu par Oracle, j'ai trouvé deux autres clés `PGP`, qu'il faut manifestement aussi vérifier et pour lesquelles il faut configurer le package manager avec `apt-key add $NOM_FICHIER_CLE_PGP.asc` :
 
 * `oracle_vbox.asc` : http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc
 * `sun_vbox.asc` : http://download.virtualbox.org/virtualbox/debian/sun_vbox.asc
 
-Pourquoi 3 signatures `PGP` à la racine du même repo ? 
+Pourquoi 3 signatures `PGP` à la racine du même repo ?
 
 
 # Installation par téléchargement de binaires distribués par Oracle
 
-Je veux ici noter de plus, que sur le site officiel de `VirtualBox`, on trouve les liens de téléchargement de tous les binaires distribués par `Oracle`, ainsi que les `checksum` correspondant. Si bien qu'il est aussi possible d'installer virtualbox de la manière suivante : 
+Je veux ici noter de plus, que sur le site officiel de `VirtualBox`, on trouve les liens de téléchargement de tous les binaires distribués par `Oracle`, ainsi que les `checksum` correspondant. Si bien qu'il est aussi possible d'installer virtualbox de la manière suivante :
 
 ## Recette bash
 
@@ -146,7 +146,7 @@ Je veux ici noter de plus, que sur le site officiel de `VirtualBox`, on trouve l
 #!/bin/bash
 
 # télécharger le fichier *.deb d'installation de virtualbox sous debian stretch
-# J'ai trouvé ces 3 URI de téléchargement, en allant sur le site officiel de virutalbox, au menu "dowloads", i.e. 
+# J'ai trouvé ces 3 URI de téléchargement, en allant sur le site officiel de virutalbox, au menu "dowloads", i.e.
 # https://www.virtualbox.org/wiki/Linux_Downloads
 export URI_TELECHARGEMENT_PACKAGE_VBOX_DEBIAN=https://download.virtualbox.org/virtualbox/6.0.4/virtualbox-6.0_6.0.4-128413~Debian~stretch_amd64.deb
 export NOM_FICHIER_DEB_INSTALLATION_VBOX=virtualbox-6.0_6.0.4-128413~Debian~stretch_amd64.deb
@@ -169,15 +169,15 @@ cat MD5SUMS|grep *~Debian~stretch_amd64.deb >> masomme.md5sum
 md5sum -c masomme.md5sum || echo "Le fichier téléchargé [$NOM_FICHIER_DEB_INSTALLATION_VBOX] a été corrompu, il ne correspond pas à la somme de contrôle fournie par Oracle : [$(cat masomme.md5sum)] "
 
 
-# L'exécution du processus d'installation `sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX`  log une indication : 
-# 
+# L'exécution du processus d'installation `sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX`  log une indication :
+#
 # > There were problems setting up VirtualBox.  To re-start the set-up process, run
 # >  /sbin/vboxconfig
 # > as root.
-# 
-# De plus, lorsque l'on exécute : 
+#
+# De plus, lorsque l'on exécute :
 #  [sudo /sbin/vboxconfig]
-# On obtient un certain nombre de messages d'erreurs, ainsi que la suggestion pour les résoudre : des dépendances de l'exécutable [/sbin/vboxconfig] manquent à l'appel. Il faut donc installer ces exécutables avant de ré-essayer d'exécuter [sbin/vboxconfig] : 
+# On obtient un certain nombre de messages d'erreurs, ainsi que la suggestion pour les résoudre : des dépendances de l'exécutable [/sbin/vboxconfig] manquent à l'appel. Il faut donc installer ces exécutables avant de ré-essayer d'exécuter [sbin/vboxconfig] :
 
 sudo apt-get install -y linux-headers-amd64 linux-headers-4.9.0-7-amd64 gcc make perl
 
@@ -185,7 +185,7 @@ sudo apt-get install -y linux-headers-amd64 linux-headers-4.9.0-7-amd64 gcc make
 # sudo /sbin/vboxconfig
 
 
-# Exécution de l'installation du package debian : l'intégrité du package a été doublement vérifiée. 
+# Exécution de l'installation du package debian : l'intégrité du package a été doublement vérifiée.
 sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX
 
 echo "Et bingo, nous sommes bons :  lees dépendances du processus exécutant la commande [sudodpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX] ont toutes été correctement installées, "
@@ -195,20 +195,20 @@ echo "Notons : l'idéal sera, pour une recette de \"production\", d'installer ce
 
 # Nous veneons d'installer un package debian (virutalbox), "manuellement", i.e. avec 'dpkg -i ....' :  
 # Il peut lui manquer des dépendances.
-# `apt-get` a la capacité de résoudre ces dépendances automatiquement, avec la commande : 
+# `apt-get` a la capacité de résoudre ces dépendances automatiquement, avec la commande :
 sudo apt-get -f install
 ```
 
 ## Remarques : Exécution de `sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX`
 
-Lorsque l'on exécute la commande `sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX`, sans avoir exécuté avant la commande : 
+Lorsque l'on exécute la commande `sudo dpkg -i ./$NOM_FICHIER_DEB_INSTALLATION_VBOX`, sans avoir exécuté avant la commande :
 
 ```bash
 sudo apt-get install -y linux-headers-amd64 linux-headers-4.9.0-7-amd64 gcc make perl
 ```
-On constate un arrêt de l'exécution avec ereur, et des logs. Dans ces logs, on note plusieurs éléments : 
+On constate un arrêt de l'exécution avec ereur, et des logs. Dans ces logs, on note plusieurs éléments :
 
-* D'abord, les logs se terminent en mentionnant un problème, et qu'une fois réoslu le problème, il faudra ré-esayer d'exécuter "avec `sudo`" la commande `/sbin/vboxconfig` : 
+* D'abord, les logs se terminent en mentionnant un problème, et qu'une fois réoslu le problème, il faudra ré-esayer d'exécuter "avec `sudo`" la commande `/sbin/vboxconfig` :
 ```bash
 There were problems setting up VirtualBox.  To re-start the set-up process, run
  /sbin/vboxconfig
@@ -227,7 +227,7 @@ Created symlink /etc/systemd/system/multi-user.target.wants/vboxballoonctrl-serv
 Created symlink /etc/systemd/system/multi-user.target.wants/vboxautostart-service.service → /lib/systemd/system/vboxautostart-service.service.
 Created symlink /etc/systemd/system/multi-user.target.wants/vboxweb-service.service → /lib/systemd/system/vboxweb-service.service.
 ```
-Impliquant que plusieurs exécutables virtualbox seront démarrables en tant que service, `vboxdrv`, `vboxballoonctrl`, `vboxautostart`, `vboxweb`, et sont activables en tant que service, avec les commandes : 
+Impliquant que plusieurs exécutables virtualbox seront démarrables en tant que service, `vboxdrv`, `vboxballoonctrl`, `vboxautostart`, `vboxweb`, et sont activables en tant que service, avec les commandes :
 
 ```bash
 sudo systemctl enable vboxdrv
@@ -236,7 +236,7 @@ sudo systemctl enable vboxautostart-service
 sudo systemctl enable vboxweb-service
 ```
 
-* Enfin, une dernière indication mérite investigation, parcequ'il s'agit de faire le build d'un composant VirtualBox : 
+* Enfin, une dernière indication mérite investigation, parcequ'il s'agit de faire le build d'un composant VirtualBox :
 
 ```bash
 This system is currently not set up to build kernel modules.
@@ -261,21 +261,21 @@ sudo apt-get install -y linux-headers-amd64 linux-headers-4.9.0-7-amd64 gcc make
 
 # Conclusion
 
-Je  remarque deux choses : 
+Je  remarque deux choses :
 
 * Dans le premier mode d'installation, on a une installation "propre", par le package manager, avec les garanties fournies par le repository, quant à la résolution automatique des dépendances, et l'intégration à l'instance d'OS. Toutefois, pour ce mode d'installation, quelques problématiques de sécurité se posent, et l'application d'une politique de gestion de la sécurité est difficile avec cette solution de provision de `VirtualBox`.
-* Dans le second mode d'installation : 
+* Dans le second mode d'installation :
   * j'ai une procédure de sécurité qui constitue un cycle complet  : il faut aller vérifier régulièrement de nouveaux contenus ont été publiés par Oracle sur virtualbox.org
-  * une installation que je dois concenvoir entièrement au lieu de laisser faire le package manager, 
+  * une installation que je dois concenvoir entièrement au lieu de laisser faire le package manager,
   * j'obtiens manifestement avec cette méthode d'installation, une version plus récente de virutalbox.
 
-En conclusion, je pense que je suis là dans le cas typique pour lequel il serait jsutifié que je me monte moi-même mes repositories `apt-get` , `apk` et `yum` pour distribuer les paquets virutalbox les plus frais, tout en appliquant une politique de gestion de la sécurité aux contenu délivré par ce canal de distribution : 
+En conclusion, je pense que je suis là dans le cas typique pour lequel il serait jsutifié que je me monte moi-même mes repositories `apt-get` , `apk` et `yum` pour distribuer les paquets virutalbox les plus frais, tout en appliquant une politique de gestion de la sécurité aux contenu délivré par ce canal de distribution :
 
 * Il s'agit d'avoir dans un repository géré en interne, des versions plus récentes de virtualbox, quelle celles distribuées via le repository Oracle correspondant
 * Il s'agit de régler un problème posé par l'installation avec `dpkg -i $NOM_FICHIER_LINUX_DEBIAN`  : en isnallant virtualbox de cette manière, la commandes `sudo apt-get update -y` et  `sudo apt-get upgrade -y`, n'impliqueront aucune mise à jour, ni aucune montée de verion de virtualbox, sur le `poste-devops-typique`.
 * Et d'appliquer la politique de gestion del a éscurité en vigueur, sur ce nouveau canal de distribution, comme pour les  autres.
 
-Voir, pour la gestion des repositories `apt-get` , `apk` et `yum` : 
+Voir, pour la gestion des repositories `apt-get` , `apk` et `yum` :
 
 * [`Redhat Satellite / Spacewalk`](https://spacewalkproject.github.io/) => pour `yum` / `CentOS`
 * [`Pulp repository manager`](https://pulpproject.org/) => pour `apt-get` , `apk` / `Ubuntu`, `Debian`, `Alpine`
@@ -283,9 +283,9 @@ Voir, pour la gestion des repositories `apt-get` , `apk` et `yum` :
 
 # Plus d'investigations : les 4 mystérieux
 
-Lorsque l'on a analysé la procédure d'installaiton de virtualbox, on a pu remarquer la mention de 4 exécutables utilisables en tant que services de l'OS DEbian Stretch : 
+Lorsque l'on a analysé la procédure d'installaiton de virtualbox, on a pu remarquer la mention de 4 exécutables utilisables en tant que services de l'OS DEbian Stretch :
 
-* **`vboxdrv`** : il s'agit du `Linux Kernel Module` de `VirtualBox` , c'est à dire son composant principal (ce qui lui permet de faire de la virtualisation). Extrait de `sudo cat /usr/lib/virtualbox/vboxdrv.sh|more` : 
+* **`vboxdrv`** : il s'agit du `Linux Kernel Module` de `VirtualBox` , c'est à dire son composant principal (ce qui lui permet de faire de la virtualisation). Extrait de `sudo cat /usr/lib/virtualbox/vboxdrv.sh|more` :
 
 ```bash
 # Oracle VM VirtualBox
@@ -319,21 +319,21 @@ Lorsque l'on a analysé la procédure d'installaiton de virtualbox, on a pu rema
 
 * **`vboxballoonctrl-service`**   : j'ai trouvé https://www.virtualbox.org/manual/ch09.html#vboxwatchdog  il semblerait que le remplaçant en cours du `ballon controller` soit devenu un certain `watchdog`
 * **`vboxautostart-service`** : Ce service permet de démarrer les VM choisies, au démarrage de l'OS de l'hôte de virtualisation (la machine sur laquelle est intallé virutalbox), et réciproquement, d'arrêter (correctement) l'exécution de VMs, avec l'arrêt (correct) de l'OS de l'hôte de virtualisation. cf. https://pgaskin.net/linux-tips/configuring-virtualbox-autostart/  .
-* **`vboxweb-service`** :   est lié au composant **`vboxwebsrv`**, comme le montre le script [`vboxweb-service.sh`](https://www.virtualbox.org/svn/vbox/trunk/src/VBox/Installer/linux/vboxweb-service.sh) qui permet de contrôle `VirtualBox` à distance, via une (pseudo) REST API.    cf. https://www.virtualbox.org/manual/ch09.html#vboxwebsrv-daemon 
+* **`vboxweb-service`** :   est lié au composant **`vboxwebsrv`**, comme le montre le script [`vboxweb-service.sh`](https://www.virtualbox.org/svn/vbox/trunk/src/VBox/Installer/linux/vboxweb-service.sh) qui permet de contrôle `VirtualBox` à distance, via une (pseudo) REST API.    cf. https://www.virtualbox.org/manual/ch09.html#vboxwebsrv-daemon
 
 # Contrôle à distance de VirtualBox par SOAP API
 
-Je cite la documentation officielle de `VirtualBox`, version `6.0.4`, dite [`VirtualBox Programming Guide And References`[(http://download.virtualbox.org/virtualbox/SDKRef.pdf)  : 
+Je cite la documentation officielle de `VirtualBox`, version `6.0.4`, dite [`VirtualBox Programming Guide And References`[(http://download.virtualbox.org/virtualbox/SDKRef.pdf)  :
 
 
 > VirtualBox comes with a web service that maps nearly the entire Main API. The web service ships in a standalone executable (`vboxwebsrv`) that, when running, acts as an HTTP server, accepts `SOAP` connections and processes them.
 
 
-Il est possible de customiser l'autyhentification qui est faite auprès du serveur hébergeant le endpoint SAOP, à savoir `vboxwebsrv`, grâce à une indication donnée dans le `Programming guide` : 
+Il est possible de customiser l'autyhentification qui est faite auprès du serveur hébergeant le endpoint SAOP, à savoir `vboxwebsrv`, grâce à une indication donnée dans le `Programming guide` :
 
 > The IWebsessionManager::logon() API takes a user name and a password as arguments, which the web service then passes to a customizable authentication plugin that performs the actual authentication.
 > For testing purposes, it is recommended that you first disable authentication with this com-
-mand : 
+mand :
 
 ```bash
 VBoxManage setproperty websrvauthlibrary null
@@ -342,7 +342,7 @@ VBoxManage setproperty websrvauthlibrary null
 Donc, l'implémentation que je dois gfournir doit certainement être la fameuse `websrvauthlibrary`
 
 
-* Comment configurer `username` et `password` pour le serveur `vboxwebsrv` ? 
+* Comment configurer `username` et `password` pour le serveur `vboxwebsrv` ?
 * Comment configurer une VM pour qu'elle démarre avec l'hôte de vritualisation `VirtualBox` ? https://pgaskin.net/linux-tips/configuring-virtualbox-autostart/
 
 
@@ -352,9 +352,9 @@ Donc, l'implémentation que je dois gfournir doit certainement être la fameuse 
 VBoxManage setproperty websrvauthlibrary mon-module-d-authentification-custom
 ```
 
-### Démarrer le serveur 
+### Démarrer le serveur
 
-Il faut juste fixer des varaibles d'envrionnement, et utiliser éventuellement des options d'invocation d'exécutable `GNU`  : 
+Il faut juste fixer des varaibles d'envrionnement, et utiliser éventuellement des options d'invocation d'exécutable `GNU`  :
 
 où retrouver ce tableau pour le terminer : https://www.virtualbox.org/manual/ch09.html#vboxwebsrv-daemon
 
@@ -379,35 +379,35 @@ où retrouver ce tableau pour le terminer : https://www.virtualbox.org/manual/ch
 
 ### Développer un module d'authentification VirtualBox Server
 
-Pour développer un tel module, je peux utiliser (c'est le seul espoir de toute façon, après, on entyre dans le core code de VirtualBox) le `Virtual Box SDK`, notammant sa version en Java. 
+Pour développer un tel module, je peux utiliser (c'est le seul espoir de toute façon, après, on entyre dans le core code de VirtualBox) le `Virtual Box SDK`, notammant sa version en Java.
 
-* Il y a aussi la `SOAP API`, mais ce qui me pose problème, c'est le module d'Authentification à la SOAP API. Pour le remplacer, je vais : 
+* Il y a aussi la `SOAP API`, mais ce qui me pose problème, c'est le module d'Authentification à la SOAP API. Pour le remplacer, je vais :
   * rendre impossible tout appel de la SOAP API
   * développer un module REST API, avec derrière un flux Kafka : un module externe d'authentification VirtualBox, OpenID Connect, avec test Keycloak
 
-* Un exemple de module externe d'authentification VirutalBOx, qui permet la mise en oeuvre de l'authentification `LDAP` à la SOAP API (TODO: retrouver le code source + build from source, pour modification jusqu'à avoir `OpenID Connect` au lieu de `LDAP/SSSD`) : 
+* Un exemple de module externe d'authentification VirutalBOx, qui permet la mise en oeuvre de l'authentification `LDAP` à la SOAP API (TODO: retrouver le code source + build from source, pour modification jusqu'à avoir `OpenID Connect` au lieu de `LDAP/SSSD`) :
 
 https://nnc3.com/mags/LM10/Magazine/Archive/2010/118/018-020_Vbox/article.html
 
 # Opérations Standard : Updates & Upgrades
 
 
-VirtuaBox suggère de lui-même le téléchargement des upgrades / updates, en poussant des notificatons : 
+VirtuaBox suggère de lui-même le téléchargement des upgrades / updates, en poussant des notificatons :
 
-* Comment automatiser la récupérations du signal envoyé, et du lien de téléchargemnt envoyé ? 
+* Comment automatiser la récupérations du signal envoyé, et du lien de téléchargemnt envoyé ?
 * Après le stéléchargement, j'ai effectué :
 
 ```bash
-# le fichier téléchargé 
+# le fichier téléchargé
 export FICHIER_UPGRADE_VBOX_DEB=virtualbox-6.0_6.0.6-130049~Debian~stretch_amd64.deb
 sudo dpkg -i ./$FICHIER_UPGRADE_VBOX_DEB
 
 ```
 
-ce qui donne lasortie standard : 
+ce qui donne lasortie standard :
 
 ```bash
-jibl@poste-devops-jbl-16gbram:~/Downloads$ sudo dpkg -i virtualbox-6.0_6.0.6-130049~Debian~stretch_amd64.deb 
+jibl@poste-devops-jbl-16gbram:~/Downloads$ sudo dpkg -i virtualbox-6.0_6.0.6-130049~Debian~stretch_amd64.deb
 (Reading database ... 190664 files and directories currently installed.)
 Preparing to unpack virtualbox-6.0_6.0.6-130049~Debian~stretch_amd64.deb ...
 Unpacking virtualbox-6.0 (6.0.6-130049~Debian~stretch) over (6.0.4-128413~Debian~stretch) ...
@@ -425,13 +425,13 @@ Processing triggers for hicolor-icon-theme (0.15-1) ...
 Processing triggers for shared-mime-info (1.8-1+deb9u1) ...
 Unknown media type in type 'all/all'
 Unknown media type in type 'all/allfiles'
-jibl@poste-devops-jbl-16gbram:~/Downloads$ 
-jibl@poste-devops-jbl-16gbram:~/Downloads$ sudo apt-get install -y 
+jibl@poste-devops-jbl-16gbram:~/Downloads$
+jibl@poste-devops-jbl-16gbram:~/Downloads$ sudo apt-get install -y
 Reading package lists... Done
 Building dependency tree       
 Reading state information... Done
 0 upgraded, 0 newly installed, 0 to remove and 122 not upgraded.
-jibl@poste-devops-jbl-16gbram:~/Downloads$ sudo apt-get update -y 
+jibl@poste-devops-jbl-16gbram:~/Downloads$ sudo apt-get update -y
 Ign:1 http://ftp.fr.debian.org/debian stretch InRelease
 Get:2 http://ftp.fr.debian.org/debian stretch-updates InRelease [91.0 kB]
 Hit:3 http://security.debian.org/debian-security stretch/updates InRelease                        
@@ -439,10 +439,10 @@ Hit:4 http://ftp.fr.debian.org/debian stretch Release
 Hit:6 https://packagecloud.io/AtomEditor/atom/any any InRelease
 Fetched 91.0 kB in 1s (77.6 kB/s)
 Reading package lists... Done
-jibl@poste-devops-jbl-16gbram:~/Downloads$ 
+jibl@poste-devops-jbl-16gbram:~/Downloads$
 
 ```
-* Pour l'installation de l'_Extension Pack_, il s'agit de télécharger un fichier qui n'est pa exécutable, et de le fournir en argument d'une commande `VBoxManage` : 
+* Pour l'installation de l'_Extension Pack_, il s'agit de télécharger un fichier qui n'est pa exécutable, et de le fournir en argument d'une commande `VBoxManage` :
 
 ```bash
 wget https://download.virtualbox.org/virtualbox/6.0.6/Oracle_VM_VirtualBox_Extension_Pack-6.0.6.vbox-extpack
@@ -452,11 +452,11 @@ sudo VBoxManage extpack install --replace ./Oracle_VM_VirtualBox_Extension_Pack-
 
 * Il est à noter que ces opérations d'upgrade / update, impliquent une remise aux valeurs par défaut de la configuration de VirtualBox. Pour effectuer correctement ces opérations, il faut donc aussi automatiser la provision de la configuratyion propre à l'environnement d'exploitation du logiciel. Das le point suivant, un screenshot réalisé juste après un upgrade / update virtualbox, montrant que le paramètre de configuration "_Default Machine Folder_" a Bel et bien été re-définit à sa valeur par défaut. Mieux, en faisant la recherche de fichiers visible dans le shell au second plan, je montre que ma configuration originale était le répertoire "_Default Machine Folder_`=/home/jibl/IAAS/virtualbox/travail/poste-devops-typique/`" , et qu'ell ea été redéfinit  à la valeur par défault "_Default Machine Folder_`=/home/jibl/VirtualBox\ VMs/`"
 
-* Notamment, un problème peut apparaître, concernant un paramètre de confiugration de VirtualBox, appelé "_Default Machine Folder_" par la terminologie `VirtualBox`, qui permet de spécifier le répertroire dans leqeul virtualbox persiste sous forme de fichiers "`.vbox`" et autres fichiers de virtualisation, l'état des VMs : 
+* Notamment, un problème peut apparaître, concernant un paramètre de confiugration de VirtualBox, appelé "_Default Machine Folder_" par la terminologie `VirtualBox`, qui permet de spécifier le répertroire dans leqeul virtualbox persiste sous forme de fichiers "`.vbox`" et autres fichiers de virtualisation, l'état des VMs :
 
 !["_Default Machine Folder_"](https://github.com/Jean-Baptiste-Lasselle/virutalbox-debian-stretch/raw/master/docs/VIRTUALBOX_UPGRADES_DISCARDS_CONFIG_EXAMPLE_DEFAULT_MACHINE_FOLDER_2019-05-09%2021-22-36.png)
 
-* Pour apporter une solution au problème, j'ai du : 
+* Pour apporter une solution au problème, j'ai du :
   * m'assurer du droit en écriture lecture sur tous les fichiers/répertoires (inodes) du répertoire "_Default Machine Folder_`=/home/jibl/IAAS/virtualbox/travail/poste-devops-typique/`"
   * pour chaque VM, créer une nouvelle VM à partir du disque dur persisté sous forme de fichier `*.vmdk/*.ova`, déjà existant. détriure ensuite l'ancienne VM, cela produira une erreur souhaitable et logique, qui empêche de détruire le disque dur associé.
   * il est à vérifier un petit nettoyage plsu complet et sérieux
@@ -464,5 +464,146 @@ sudo VBoxManage extpack install --replace ./Oracle_VM_VirtualBox_Extension_Pack-
 * Une dernière mesure est peut-être à prendre : l'ajout de l'opérateur dans le groupe virtualbox?
 
 
-  
+# _Installations Ansible_
 
+## `Debian`
+
+(Source : https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#latest-releases-via-apt-debian )
+
+* Dans le fichier `/etc/apt/sources.list`, ou `/etc/apt/sources.d/ansible.devops.list` :
+
+```bash
+deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main
+```
+
+
+* Puis exécuter :
+
+```bash
+
+installationAnsible () {
+  echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" >> /etc/apt/sources.d/ansible.devops.list
+
+  export GPG_KEY_DU_REPO_ANSIBLE_DEBIAN=93C4A3FD7BB9C367
+  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $GPG_KEY_DU_REPO_ANSIBLE_DEBIAN
+  sudo apt update -y
+  sudo apt install -y ansible
+  sudo apt install -y ansible-playbook
+}
+
+touch /etc/apt/sources.d/ansible.devops.list && installationAnsible || echo "annulation de l'installation"
+
+
+```
+
+# _Quelques Exemples_
+
+### `Hello World` Playbook (But you speak French)
+
+
+* Code de l'exécution ansible :
+
+```bash
+# Well that's not executing the playbook, it's just listing part of the current configuration, namely listing a part (called a host group) of the inventory. this host group basically is a list of machines, with their network name (from which they can be reached)
+ansible pre-production --list -i ./inventaire-region-germany3
+# Playbook execution now :
+ansible-playbook pre-prod/ansible-command-ex1.yml -i ./inventaire-region-germany3
+```
+
+* Playbook file `pre-prod/ansible-command-ex1.yml` :
+
+```Yaml
+- name: Check the remote host uptime (oui je parle français)
+  hosts: serveursdeprelabo
+  tasks:
+    - name: Execute the Uptime command over Command module
+      register: cousteau
+      command: "uptime"
+
+    - debug:
+        var: cousteau.stdout_lines
+```
+
+* Oh and the inventory `./inventaire-region-germany3` :
+
+```ini
+[labo]
+foo.laby.com
+bar.laby.com
+
+
+[integration]
+one.integration-forreal.com
+two.integration-forreal.com
+three.integration-forreal.com
+
+[pre-production]
+one.pre-prod-forreal.com
+two.pre-prod-forreal.com
+three.pre-prod-forreal.com
+
+[prod]
+one.forreal.com
+two.forreal.com
+three.forreal.com
+four.forreal.com
+five.forreal.com
+six.forreal.com
+seven.forreal.com
+mail.forreal.com
+
+```
+
+### Passage de variables au sein d'un Playbook
+
+
+Un Excellent exemple de Passage de variables d'une tâche, à une autre, au sein d'un Playbook :
+
+* code de l'exécution ansible :
+```bash
+ansible-playbook pre-prod/ansible-command-ex1.yml -i ./inventaire-region-germany3
+```
+* playbook file :
+
+```Yaml
+- hosts: web_servers
+
+  tasks:
+
+     - shell: /usr/bin/foo
+       register: foo_result
+       ignore_errors: True
+
+     - shell: /usr/bin/bar
+       when: foo_result.rc == 5
+```
+
+* inventory file `./inventaire-region-germany3` :
+
+```ini
+[labo]
+foo.laby.com
+bar.laby.com
+
+
+[integration]
+one.integration-forreal.com
+two.integration-forreal.com
+three.integration-forreal.com
+
+[pre-production]
+one.pre-prod-forreal.com
+two.pre-prod-forreal.com
+three.pre-prod-forreal.com
+
+[prod]
+one.forreal.com
+two.forreal.com
+three.forreal.com
+four.forreal.com
+five.forreal.com
+six.forreal.com
+seven.forreal.com
+mail.forreal.com
+
+```
