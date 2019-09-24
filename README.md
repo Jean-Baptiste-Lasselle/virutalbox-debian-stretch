@@ -610,3 +610,13 @@ seven.forreal.com
 mail.forreal.com
 
 ```
+
+>
+> **_Sources_** :
+>
+> * https://docs.ansible.com/ansible/latest/modules/shell_module.html et la différence avec le https://docs.ansible.com/ansible/latest/modules/command_module.html
+> * https://docs.ansible.com/ansible/latest/network/getting_started/network_differences.html
+> * https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html
+> * https://www.toptechskills.com/ansible-tutorials-courses/ansible-shell-module-tutorial-examples/
+> * https://docs.ansible.com/ansible/latest/user_guide/playbooks_intro.html
+> 
