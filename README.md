@@ -470,7 +470,7 @@ sudo VBoxManage extpack install --replace ./Oracle_VM_VirtualBox_Extension_Pack-
 
 (Source : https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#latest-releases-via-apt-debian )
 
-* Dans le fichier `/etc/apt/sources.list`, ou `/etc/apt/sources.d/ansible.devops.list` :
+* Dans le fichier `/etc/apt/sources.list`, ou `/etc/apt/sources.list.d/ansible.devops.list` :
 
 ```bash
 deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main
@@ -482,7 +482,7 @@ deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main
 ```bash
 
 installationAnsible () {
-  echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" >> /etc/apt/sources.d/ansible.devops.list
+  echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" >> /etc/apt/sources.list.d/ansible.devops.list
 
   export GPG_KEY_DU_REPO_ANSIBLE_DEBIAN=93C4A3FD7BB9C367
   sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $GPG_KEY_DU_REPO_ANSIBLE_DEBIAN
@@ -491,7 +491,7 @@ installationAnsible () {
   sudo apt install -y ansible-playbook
 }
 
-touch /etc/apt/sources.d/ansible.devops.list && installationAnsible || echo "annulation de l'installation"
+touch /etc/apt/sources.list.d/ansible.devops.list && installationAnsible || echo "annulation de l'installation" >> /etc/apt/sources.list.d/ansible.devops.list
 
 
 ```
@@ -513,15 +513,18 @@ ansible-playbook pre-prod/ansible-command-ex1.yml -i ./inventaire-region-germany
 * Playbook file `pre-prod/ansible-command-ex1.yml` :
 
 ```Yaml
-- name: Check the remote host uptime (oui je parle français)
-  hosts: serveursdeprelabo
-  tasks:
-    - name: Execute the Uptime command over Command module
-      register: cousteau
-      command: "uptime"
-
-    - debug:
-        var: cousteau.stdout_lines
+- name: create a text file with variable name that has been sanitized
+  shell: echo "Hello, World!" > $HOME/{{ file_name | quote }}.txt
+- name: create a text file in $HOME only if it doesn't already exist
+  shell: echo "Hello, World!" > $HOME/test_file.txt
+  args:
+    creates: "$HOME/test_file.txt"
+- name: remove a text file in $HOME only if it already exists
+  shell: rm $HOME/test_file.txt
+  args:
+    removes: "$HOME/test_file.txt"
+- name: read all text files in $HOME with the /bin/bash shell
+  shell: cat < $HOME/test_file.txt
 ```
 
 * Oh and the inventory `./inventaire-region-germany3` :
